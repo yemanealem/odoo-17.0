@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record model="ir.ui.menu" id="stock.menu_stock_transfers">
+    <field name="groups_id" eval="[(6,0,[ref('hide_menu_group')])]"/>
+      <field name="sequence" eval="5"/>
+  </record>
+
+
+  <record model="ir.ui.menu" id="stock.menu_stock_procurement">
+    <field name="groups_id" eval="[(6,0,[ref('hide_menu_group')])]"/>
+      <field name="sequence" eval="5"/>
+  </record>
+
+
+  <record model="ir.ui.menu" id="stock.menu_procurement_compute">
+    <field name="groups_id" eval="[(6,0,[ref('hide_menu_group')])]"/>
+      <field name="sequence" eval="5"/>
+  </record>
+</odoo>

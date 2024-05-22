@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="inv_uom_manager" model="res.groups">
+        <field name="name">Unit of measure manager</field>
+        <field name="category_id" ref="base.module_category_inventory_inventory"/>
+    </record>
+
+    <record id="inventory_stk" model="res.groups">
+        <field name="name">Storekeeper</field>
+        <field name="category_id" ref="base.module_category_inventory_inventory"/>
+    </record>
+    <record id="kenema_prod_approver" model="res.groups">
+        <field name="name">Product registration approver.</field>
+        <field name="category_id" ref="base.module_category_inventory_inventory"/>
+    </record>
+    <record id="stores_manager" model="res.groups">
+        <field name="name">Kenema Stores manager</field>
+        <field name="category_id" ref="base.module_category_inventory_inventory"/>
+    </record>
+
+
+    <record id="hide_menu_group" model="res.groups">
+        <field name="name">Hide menu groups</field>
+    </record>
+</odoo>
+
+
