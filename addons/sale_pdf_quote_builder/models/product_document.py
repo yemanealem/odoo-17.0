@@ -1,11 +1,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import base64
-
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import ValidationError
-
-from odoo.addons.sale_pdf_quote_builder import utils
 
 
 class ProductDocument(models.Model):
@@ -24,9 +20,11 @@ class ProductDocument(models.Model):
              "header pages and the quote table. ",
     )
 
-    @api.constrains('attached_on', 'datas')
-    def _check_attached_on_and_datas_compatibility(self):
-        for doc in self.filtered(lambda doc: doc.attached_on == 'inside'):
-            if doc.datas and not doc.mimetype.endswith('pdf'):
+    def write(self, vals):
+        res = super().write(vals)
+        if vals.keys() & {'attached_on', 'mimetype'}:
+            if any(
+                doc.attached_on == 'inside' and not doc.mimetype.endswith('pdf') for doc in self
+            ):
                 raise ValidationError(_("Only PDF documents can be attached inside a quote."))
-            utils._ensure_document_not_encrypted(base64.b64decode(doc.datas))
+        return res

@@ -574,18 +574,13 @@ class TestRepair(common.TransactionCase):
         self.assertEqual(return_picking.state, 'done')
 
         res_dict = return_picking.action_repair_return()
-        repair_form = Form(self.env[(res_dict.get('res_model'))].with_context(res_dict['context']), view=res_dict['view_id'])
+        repair_form = Form(self.env[(res_dict.get('res_model'))].with_context(res_dict['context']))
         repair_form.product_id = product
-        with repair_form.move_ids.new() as move:
-            move.product_id = self.product_product_5
-            move.product_uom_qty = 1.0
-            move.quantity = 1.0
-            move.repair_line_type = 'add'
         repair = repair_form.save()
         repair.action_repair_start()
         repair.action_repair_end()
         self.assertEqual(repair.state, 'done')
-        self.assertEqual(len(return_picking.move_ids), 1, "Parts added to the repair order shoudln't be added to the return picking")
+        self.assertEqual(len(return_picking.move_ids), 1)
 
     def test_repair_with_product_in_package(self):
         """
@@ -658,30 +653,3 @@ class TestRepair(common.TransactionCase):
             {'product_id': product_a.id, 'product_qty': 1.0},
             {'product_id': product_a.id, 'product_qty': 1.0},
         ])
-
-    def test_onchange_picking_type_id_and_name(self):
-        """
-        Test that when changing the picking_type_id, the name of the repair order should be changed too
-        """
-        repair_order = self.env['repair.order'].create({
-            'product_id': self.product_product_3.id,
-            'picking_type_id': self.stock_warehouse.repair_type_id.id,
-        })
-        picking_type_1 = self.env['stock.picking.type'].create({
-            'name': 'new_picking_type_1',
-            'code': 'repair_operation',
-            'sequence_code': 'PT1/',
-        })
-        picking_type_2 = self.env['stock.picking.type'].create({
-            'name': 'new_picking_type_2',
-            'code': 'repair_operation',
-            'sequence_code': 'PT2/',
-        })
-        repair_order.picking_type_id = picking_type_1
-        self.assertEqual(repair_order.name, "PT1/00001")
-        repair_order.picking_type_id = picking_type_2
-        self.assertEqual(repair_order.name, "PT2/00001")
-        repair_order.picking_type_id = picking_type_1
-        self.assertEqual(repair_order.name, "PT1/00002")
-        repair_order.picking_type_id = picking_type_1
-        self.assertEqual(repair_order.name, "PT1/00002")

@@ -87,7 +87,7 @@ msgstr "接收 Peppol 文件必須使用採購日記賬。"
 #. module: account_peppol
 #: model:ir.model,name:account_peppol.model_account_edi_proxy_client_user
 msgid "Account EDI proxy user"
-msgstr "賬戶 EDI 代理使用者"
+msgstr "帳戶 Edi 代理帳號"
 
 #. module: account_peppol
 #: model:ir.model,name:account_peppol.model_account_move_send
@@ -576,13 +576,6 @@ msgstr ""
 #, python-format
 msgid "Please fill in the EAS code and the Participant ID code."
 msgstr "請填寫 EAS代碼及參與者 ID代碼。"
-
-#. module: account_peppol
-#. odoo-python
-#: code:addons/account_peppol/models/res_company.py:0
-#, python-format
-msgid "Please install the phonenumbers library."
-msgstr "請安裝電話號碼程式庫。"
 
 #. module: account_peppol
 #. odoo-python

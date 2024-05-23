@@ -10,6 +10,7 @@ import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { memoize } from "@web/core/utils/functions";
 import { url } from "@web/core/utils/urls";
+import { escape } from "@web/core/utils/strings";
 import { compareDatetime } from "@mail/utils/common/misc";
 
 const FETCH_LIMIT = 30;
@@ -99,7 +100,7 @@ export class ThreadService {
      * @param {import("models").Thread} thread
      */
     markAsRead(thread) {
-        const newestPersistentMessage = thread.newestPersistentOfAllMessage;
+        const newestPersistentMessage = thread.newestPersistentNotEmptyOfAllMessage;
         if (!newestPersistentMessage && !thread.isLoaded) {
             thread.isLoadedDeferred
                 .then(() => new Promise(setTimeout))
@@ -131,7 +132,7 @@ export class ThreadService {
         }
     }
 
-    updateSeen(thread, lastSeenId = thread.newestPersistentOfAllMessage?.id) {
+    updateSeen(thread, lastSeenId = thread.newestPersistentNotEmptyOfAllMessage?.id) {
         const lastReadIndex = thread.messages.findIndex((message) => message.id === lastSeenId);
         let newNeedactionCounter = 0;
         let newUnreadCounter = 0;
@@ -1007,7 +1008,7 @@ export class ThreadService {
     async search(searchTerm, thread, before = false) {
         const { messages, count } = await this.rpc(this.getFetchRoute(thread), {
             ...this.getFetchParams(thread),
-            search_term: await prettifyMessageContent(searchTerm), // formatted like message_post
+            search_term: escape(searchTerm),
             before,
         });
         return {

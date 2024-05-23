@@ -7041,47 +7041,6 @@ QUnit.module("Views", (hooks) => {
         }
     );
 
-    QUnit.test("grouped list keeps offset on switchView", async (assert) => {
-        assert.expect(8);
-        serverData.views = {
-            "foo,false,search": `
-                <search>
-                    <filter string="IntField" name="groupby" domain="[]" context="{'group_by': 'int_field'}"/>
-                </search>`,
-            "foo,99,list": `<list groups_limit="1"><field name="display_name" /></list>`,
-            "foo,100,form": `<form><field name="display_name" /></form>`,
-        };
-
-        const offsets = [0, 1, 1];
-        const mockRPC = async (route, args) => {
-            if (args.method === "web_read_group") {
-                assert.strictEqual(args.kwargs.offset, offsets.shift());
-            }
-        };
-        const wc = await createWebClient({ serverData, mockRPC });
-        await doAction(wc, {
-            res_model: "foo",
-            type: "ir.actions.act_window",
-            views: [
-                [99, "list"],
-                [100, "form"],
-            ],
-            context: {
-                search_default_groupby: true,
-            },
-        });
-
-        assert.containsOnce(target, ".o_list_view");
-        await click(target, ".o_pager_next");
-        assert.containsNone(target, ".o_data_row");
-        await click(target, ".o_group_header");
-        assert.containsOnce(target, ".o_data_row");
-        await click(target, ".o_data_cell");
-        assert.containsOnce(target, ".o_form_view");
-        await click(target, ".o_back_button");
-        assert.containsOnce(target, ".o_data_row");
-    });
-
     QUnit.test("can sort records when clicking on header", async function (assert) {
         serverData.models.foo.fields.foo.sortable = true;
 
@@ -10865,7 +10824,7 @@ QUnit.module("Views", (hooks) => {
     });
 
     QUnit.test("list with handle widget", async function (assert) {
-        assert.expect(13);
+        assert.expect(11);
 
         await makeView({
             type: "list",
@@ -10877,9 +10836,6 @@ QUnit.module("Views", (hooks) => {
                     <field name="amount" widget="float" digits="[5,0]"/>
                 </tree>`,
             mockRPC(route, args) {
-                if (args.method === "web_search_read") {
-                    assert.step(`web_search_read: order: ${args.kwargs.order}`);
-                }
                 if (route === "/web/dataset/resequence") {
                     assert.strictEqual(
                         args.offset,
@@ -10901,7 +10857,6 @@ QUnit.module("Views", (hooks) => {
             },
         });
 
-        assert.verifySteps(["web_search_read: order: int_field ASC, id ASC"]);
         let rows = target.querySelectorAll(".o_data_row");
         assert.strictEqual(
             rows[0].querySelector("[name='amount']").textContent,
@@ -13160,9 +13115,10 @@ QUnit.module("Views", (hooks) => {
             await editInput(target, ".o_field_many2one input", "abcdef");
             await nextTick();
 
-            await click(target, ".o_m2o_dropdown_option_create_edit");
+            // simulate focus out
+            await triggerEvent(target, ".o_field_many2one input", "blur");
 
-            assert.containsOnce(target, ".modal", "should show dialog to create the record");
+            assert.containsOnce(target, ".modal", "should ask confirmation to create a record");
             assert.containsOnce(target, ".o_data_row", "the row should still be there");
         }
     );
@@ -16853,9 +16809,13 @@ QUnit.module("Views", (hooks) => {
 
         const input = target.querySelector(".o_data_row .o_data_cell input");
         await editInput(input, null, "aaa");
-        await triggerEvents(input, null, ["keyup"]);
-        await triggerHotkey("tab");
+        await triggerEvents(input, null, ["keyup", "blur"]);
+        document.body.click();
         await nextTick();
+        assert.containsOnce(target, ".modal", "the quick_create modal should appear");
+
+        await click(target.querySelector(".modal .btn-primary"));
+        await click(target.querySelector(".o_list_view"));
         assert.strictEqual(
             target.getElementsByClassName("o_data_cell")[0].innerHTML,
             "aaa",
@@ -20122,65 +20082,4 @@ QUnit.module("Views", (hooks) => {
             assert.verifySteps(["onchange"], "There should only be one onchange call");
         }
     );
-
-    QUnit.test("list: remove a record from sorted recordlist", async function (assert) {
-        assert.expect(7);
-
-        serverData.models.foo.records = [{ id: 1, o2m: [1, 2, 3, 4, 5, 6] }];
-        serverData.models.bar.fields = {
-            ...serverData.models.bar.fields,
-            name: { string: "Name", type: "char", sortable: true },
-            city: { string: "City", type: "boolean", default: false },
-        };
-
-        serverData.models.bar.records = [
-            { id: 1, name: "a", city: true },
-            { id: 2, name: "b" },
-            { id: 3, name: "c" },
-            { id: 4, name: "d" },
-            { id: 5, name: "e" },
-            { id: 6, name: "f", city: true },
-        ];
-        await makeView({
-            type: "form",
-            resModel: "foo",
-            serverData,
-            resId: 1,
-            mode: "edit",
-            arch: `
-                <form>
-                    <sheet>
-                        <field name="o2m">
-                            <tree limit="2">
-                                <field name="id"/>
-                                <field name="name" required="not city"/>
-                                <field name="city"/>
-                            </tree>
-                        </field>
-                    </sheet>
-                </form>`,
-        });
-
-        // 4 th (1 for delete button, 3 for columns)
-        assert.containsN(target, "th", 4, "should have 3 columns and delete buttons");
-
-        assert.containsN(target, "tbody tr.o_data_row", 2, "should have 2 rows");
-        assert.containsOnce(target, "th.o_column_sortable", "should have 1 sortable column");
-        const getColNames = () =>
-            getNodesTextContent(document.querySelectorAll('.o_data_cell[name="name"'));
-        assert.deepEqual(getColNames(), ["a", "b"], "Should be sorted by id asc");
-        // sort by name desc
-        await click(target, "th.o_column_sortable[data-name=name]");
-        await click(target, "th.o_column_sortable[data-name=name]");
-        assert.deepEqual(getColNames(), ["f", "e"], "Should be sorted by name desc");
-        // remove second record
-        await click(target.querySelectorAll(".o_list_record_remove")[1]);
-        assert.deepEqual(getColNames(), ["f", "d"], "Should be sorted by name desc");
-        // check if the record is removed
-        assert.strictEqual(
-            target.querySelector(".o_list_view .o_pager_counter").textContent,
-            "1-2 / 5",
-            "pager should be updated to 1-2 / 5"
-        );
-    });
 });

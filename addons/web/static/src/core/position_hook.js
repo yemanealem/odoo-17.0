@@ -122,7 +122,7 @@ function getBestPosition(popper, target, { container, margin, position }, iframe
 
     // Retrieve container
     if (!container) {
-        container = popper.ownerDocument.documentElement;
+        container = target.ownerDocument.documentElement;
     } else if (typeof container === "function") {
         container = container();
     }

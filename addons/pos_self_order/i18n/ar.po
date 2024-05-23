@@ -270,7 +270,7 @@ msgstr "مجموعة "
 #. module: pos_self_order
 #: model:ir.model.fields,field_description:pos_self_order.field_pos_order_line__combo_line_ids
 msgid "Combo Lines"
-msgstr "بنود مركّبة "
+msgstr "بنود المجموعة "
 
 #. module: pos_self_order
 #: model:ir.model.fields,field_description:pos_self_order.field_pos_order_line__combo_parent_id

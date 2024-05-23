@@ -221,7 +221,7 @@ msgstr "Proveedores principales por importe"
 #: code:addons/spreadsheet_dashboard_purchase/data/files/vendors_dashboard.json:0
 #, python-format
 msgid "Untaxed total"
-msgstr "Total imponible"
+msgstr "total libre de impuestos"
 
 #. module: spreadsheet_dashboard_purchase
 #. odoo-javascript

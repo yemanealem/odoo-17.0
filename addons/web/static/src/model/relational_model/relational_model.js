@@ -496,14 +496,14 @@ export class RelationalModel extends Model {
                 JSON.stringify([config.domain, config.groupBy, config.offset, config.limit])
         ) {
             const currentGroups = config.currentGroups.groups;
-            currentGroups.forEach((group, index) => {
+            for (const group of currentGroups) {
                 if (
                     config.groups[group.value] &&
                     !groups.some((g) => JSON.stringify(g.value) === JSON.stringify(group.value))
                 ) {
-                    groups.splice(index, 0, Object.assign({}, group, { count: 0, length: 0, records: [] }));
+                    groups.push(Object.assign({}, group, { count: 0, length: 0, records: [] }));
                 }
-            });
+            }
         }
         config.currentGroups = {
             params: JSON.stringify([config.domain, config.groupBy, config.offset, config.limit]),

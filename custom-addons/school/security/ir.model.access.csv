@@ -1,7 +1,0 @@
-id,name,model_id:id,perm_write,perm_create,perm_unlink,perm_read
-school_user,Base User,model_school_profile,1,1,1,1
-
-
-
-
-

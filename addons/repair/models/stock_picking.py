@@ -5,7 +5,6 @@ import time
 
 from odoo import _, api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from odoo.tools.misc import clean_context
 
 
 class PickingType(models.Model):
@@ -150,7 +149,7 @@ class Picking(models.Model):
 
     def action_repair_return(self):
         self.ensure_one()
-        ctx = clean_context(self.env.context.copy())
+        ctx = self.env.context.copy()
         ctx.update({
             'default_location_id': self.location_dest_id.id,
             'default_picking_id': self.id,

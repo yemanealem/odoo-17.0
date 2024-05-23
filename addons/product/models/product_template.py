@@ -39,9 +39,13 @@ class ProductTemplate(models.Model):
         return categories.browse(category_ids)
 
     name = fields.Char('Name', index='trigram', required=True, translate=True)
+    # added new fields
     drug_code = fields.Char('Drug Code')
     dosage_form = fields.Char('Dosage Form')
     drug_strength = fields.Char('Drug Strength')
+
+
+
 
     description = fields.Html(
         'Description', translate=True)

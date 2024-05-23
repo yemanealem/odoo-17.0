@@ -584,7 +584,7 @@ msgstr "<span>Proizvodi brez dodeljenega paketa</span>"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
 msgid "<span>Remaining quantities not yet delivered:</span>"
-msgstr "<span>Nedostavljene količine:</span>"
+msgstr ""
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_package_type_form
@@ -612,7 +612,7 @@ msgstr ""
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
 msgid "<strong>Delivered</strong>"
-msgstr "<strong>Dostavljeno</strong>"
+msgstr ""
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_picking
@@ -667,7 +667,7 @@ msgstr "<strong>Ponudba:</strong>"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
 msgid "<strong>Ordered</strong>"
-msgstr "<strong>Naročeno</strong>"
+msgstr ""
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_package_barcode
@@ -929,7 +929,7 @@ msgstr "Naslov, kamor je treba blago dostaviti. Neobvezno."
 #. module: stock
 #: model:ir.ui.menu,name:stock.menu_stock_adjustments
 msgid "Adjustments"
-msgstr "Prilagoditve"
+msgstr ""
 
 #. module: stock
 #: model:res.groups,name:stock.group_stock_manager
@@ -961,12 +961,19 @@ msgstr "Vsi prenosi"
 #: code:addons/stock/static/src/views/search/stock_report_search_panel.xml:0
 #, python-format
 msgid "All Warehouses"
-msgstr "Vsa skladišča"
+msgstr ""
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__procurement_group__move_type__one
 msgid "All at once"
 msgstr "Vse naenkrat"
+
+#. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"All our contractual relations will be governed exclusively by United States "
+"law."
+msgstr ""
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_move__returned_move_ids
@@ -1104,11 +1111,6 @@ msgid "Archived"
 msgstr "Arhivirano"
 
 #. module: stock
-#: model_terms:ir.ui.view,arch_db:stock.view_picking_form
-msgid "Are you sure you want to cancel this transfer?"
-msgstr ""
-
-#. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_picking__move_type__direct
 msgid "As soon as possible"
 msgstr "Takoj, ko bo mogoče"
@@ -1123,7 +1125,7 @@ msgstr ""
 #: code:addons/stock/static/src/components/reception_report_line/stock_reception_report_line.xml:0
 #, python-format
 msgid "Assign"
-msgstr "Dodelitev"
+msgstr ""
 
 #. module: stock
 #. odoo-javascript
@@ -1132,7 +1134,7 @@ msgstr "Dodelitev"
 #: code:addons/stock/static/src/xml/report_stock_reception.xml:0
 #, python-format
 msgid "Assign All"
-msgstr "Dodelite vse"
+msgstr ""
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_picking__owner_id
@@ -1358,6 +1360,13 @@ msgid "Before scheduled date"
 msgstr ""
 
 #. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"Below text serves as a suggestion and doesn’t engage Odoo S.A. "
+"responsibility."
+msgstr ""
+
+#. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__res_partner__picking_warn__block
 msgid "Blocking Message"
 msgstr "Sporočilo ob blokadi"
@@ -1497,6 +1506,18 @@ msgstr "Kategorija"
 #: model:ir.model.fields,field_description:stock.field_product_template__route_from_categ_ids
 msgid "Category Routes"
 msgstr "Kategorije prog"
+
+#. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"Certain countries apply withholding at source on the amount of invoices, in "
+"accordance with their internal legislation. Any withholding at source will "
+"be paid by the client to the tax authorities. Under no circumstances can My "
+"Company (Chicago) become involved in costs related to a country's "
+"legislation. The amount of the invoice will therefore be due to My Company "
+"(Chicago) in its entirety and does not include any costs relating to the "
+"legislation of the country in which the client is located."
+msgstr ""
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_return_picking__move_dest_exists
@@ -2380,7 +2401,7 @@ msgstr ""
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_warehouse_form
 msgid "Define a new warehouse"
-msgstr "Opredelite novo skladiše"
+msgstr ""
 
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_location_form
@@ -3025,7 +3046,7 @@ msgstr "Pričakovano"
 #: model_terms:ir.ui.view,arch_db:stock.report_reception_body
 #, python-format
 msgid "Expected Delivery:"
-msgstr "Pričakovana dostava:"
+msgstr ""
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_res_config_settings__module_product_expiry
@@ -3350,13 +3371,6 @@ msgid "Generate Serials numbers"
 msgstr ""
 
 #. module: stock
-#. odoo-javascript
-#: code:addons/stock/static/src/widgets/lots_dialog.xml:0
-#, python-format
-msgid "Generate Serials/Lots"
-msgstr ""
-
-#. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.res_config_settings_view_form
 msgid "Get a full traceability from vendors to customers"
 msgstr "Pridobite popolno sledljivost od prodajalcev do strank"
@@ -3569,6 +3583,15 @@ msgstr "Ikona"
 #: model:ir.model.fields,help:stock.field_stock_picking__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr "Ikona za označevanje izjemne aktivnosti."
+
+#. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"If a payment is still outstanding more than sixty (60) days after the due "
+"payment date, My Company (Chicago) reserves the right to call on the "
+"services of a debt recovery company. All legal expenses will be payable by "
+"the client."
+msgstr ""
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_storage_category__allow_new_product__same
@@ -3795,13 +3818,6 @@ msgid "Import Lots"
 msgstr ""
 
 #. module: stock
-#. odoo-javascript
-#: code:addons/stock/static/src/widgets/lots_dialog.xml:0
-#, python-format
-msgid "Import Serials/Lots"
-msgstr ""
-
-#. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
 #, python-format
@@ -3817,6 +3833,15 @@ msgstr ""
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse__in_type_id
 msgid "In Type"
 msgstr "Vhodni tip"
+
+#. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"In order for it to be admissible, My Company (Chicago) must be notified of "
+"any claim by means of a letter sent by recorded delivery to its registered "
+"office within 8 days of the delivery of the goods or the provision of the "
+"services."
+msgstr ""
 
 #. module: stock
 #. odoo-javascript
@@ -4587,13 +4612,6 @@ msgid "Locations"
 msgstr "Lokacije"
 
 #. module: stock
-#. odoo-python
-#: code:addons/stock/models/stock_picking.py:0
-#, python-format
-msgid "Locations to update"
-msgstr ""
-
-#. module: stock
 #: model:ir.actions.server,name:stock.action_toggle_is_locked
 msgid "Lock/Unlock"
 msgstr ""
@@ -5014,6 +5032,17 @@ msgid "My Activity Deadline"
 msgstr "Rok dejavnosti"
 
 #. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"My Company (Chicago) undertakes to do its best to supply performant services"
+" in due time in accordance with the agreed timeframes. However, none of its "
+"obligations can be considered as being an obligation to achieve results. My "
+"Company (Chicago) cannot under any circumstances, be required by the client "
+"to appear as a third party in the context of any claim for damages filed "
+"against the client by an end consumer."
+msgstr ""
+
+#. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.quant_search_view
 msgid "My Counts"
 msgstr ""
@@ -5096,6 +5125,12 @@ msgstr "Nova količina na zalogi"
 #: model:ir.actions.act_window,name:stock.action_picking_form
 msgid "New Transfer"
 msgstr "Nov prenos"
+
+#. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_lot__activity_calendar_event_id
+#: model:ir.model.fields,field_description:stock.field_stock_picking__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Naslednji dogodek v koledarju aktivnosti"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_lot__activity_date_deadline
@@ -5182,7 +5217,7 @@ msgstr ""
 #: code:addons/stock/models/stock_move_line.py:0
 #, python-format
 msgid "No negative quantities allowed"
-msgstr "Negativne količine niso dovoljene."
+msgstr ""
 
 #. module: stock
 #. odoo-javascript
@@ -5277,7 +5312,7 @@ msgstr "Običajno"
 #: code:addons/stock/static/src/widgets/forecast_widget.xml:0
 #, python-format
 msgid "Not Available"
-msgstr "Ni na voljo"
+msgstr ""
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_reorder_report_search
@@ -5565,7 +5600,7 @@ msgstr ""
 #: code:addons/stock/models/stock_picking.py:0
 #, python-format
 msgid "Order signed"
-msgstr "Podpisano naročilo"
+msgstr ""
 
 #. module: stock
 #. odoo-python
@@ -5614,6 +5649,17 @@ msgstr "Izvirno pravilo o preurejanju"
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
 msgid "Other Information"
 msgstr "Ostale informacije"
+
+#. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"Our invoices are payable within 21 working days, unless another payment "
+"timeframe is indicated on either the invoice or the order. In the event of "
+"non-payment by the due date, My Company (Chicago) reserves the right to "
+"request a fixed interest payment amounting to 10% of the sum remaining due. "
+"My Company (Chicago) will be authorized to suspend any provision of services"
+" without prior warning in the event of late payment."
+msgstr ""
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse__out_type_id
@@ -6348,7 +6394,7 @@ msgstr ""
 #: code:addons/stock/models/stock_quant.py:0
 #, python-format
 msgid "Product Quantity Updated"
-msgstr "Posodobljena količina izdelka"
+msgstr ""
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_quant_relocate_view_form
@@ -6548,7 +6594,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_move_line_detailed_operation_tree
 msgid "Put in Pack"
-msgstr "Dajte v paket"
+msgstr ""
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.res_config_settings_view_form
@@ -6648,7 +6694,7 @@ msgstr ""
 #: code:addons/stock/models/stock_quant.py:0
 #, python-format
 msgid "Quantities Already Set"
-msgstr "Že nastavljene količine"
+msgstr ""
 
 #. module: stock
 #. odoo-python
@@ -6837,6 +6883,13 @@ msgid "RETURN OF"
 msgstr ""
 
 #. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_lot__rating_ids
+#: model:ir.model.fields,field_description:stock.field_stock_picking__rating_ids
+#: model:ir.model.fields,field_description:stock.field_stock_scrap__rating_ids
+msgid "Ratings"
+msgstr "Ocene"
+
+#. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_picking__state__assigned
 #: model_terms:ir.ui.view,arch_db:stock.stock_picking_type_kanban
 #: model_terms:ir.ui.view,arch_db:stock.view_move_search
@@ -6882,7 +6935,7 @@ msgstr "Proga prejema"
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_internal_search
 #, python-format
 msgid "Receipts"
-msgstr "Prevzemi"
+msgstr "Dokazila"
 
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_picking_tree_incoming
@@ -7425,7 +7478,7 @@ msgstr ""
 #: code:addons/stock/models/stock_rule.py:0
 #, python-format
 msgid "Rule %s belongs to %s while the route belongs to %s."
-msgstr "Pravilo%s pripada %s proga pa pripada %s."
+msgstr ""
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_rule__rule_message
@@ -7503,11 +7556,16 @@ msgid "SSCC:"
 msgstr ""
 
 #. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid "STANDARD TERMS AND CONDITIONS OF SALE"
+msgstr ""
+
+#. module: stock
 #. odoo-javascript
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
 #, python-format
 msgid "Sales History"
-msgstr "Zgodovina prodaje"
+msgstr ""
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_product_replenish__date_planned
@@ -7741,8 +7799,6 @@ msgid ""
 "Serial number (%s) already exists in location(s): %s. Please correct the "
 "serial number encoded."
 msgstr ""
-"Serijska številka (%s) že obstaja na lokaciji (-ah):%s. Prosimo, popravite v"
-" šifrantu serijskih številk."
 
 #. module: stock
 #. odoo-python
@@ -7753,9 +7809,6 @@ msgid ""
 "\n"
 "Please correct this to prevent inconsistent data."
 msgstr ""
-"Serijska številka (%s) se nahaja v %s, ampak se nahaja na lokaciji(-ah):%s.\n"
-"\n"
-"Prosimo, popravite to, da preprečite nekonsistentne podatke."
 
 #. module: stock
 #. odoo-python
@@ -7766,9 +7819,6 @@ msgid ""
 "\n"
 "Source location for this move will be changed to %s"
 msgstr ""
-"Serijska številka (%s) se ne nahaja v %s, ampak se nahaja na lokaciji(-ah):%s.\n"
-"\n"
-"Izvorna lokacija za to potezo bo spremenjena na %s"
 
 #. module: stock
 #. odoo-javascript
@@ -8503,6 +8553,15 @@ msgid "The barcode for a location must be unique per company!"
 msgstr ""
 
 #. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid ""
+"The client explicitly waives its own standard terms and conditions, even if "
+"these were drawn up after these standard terms and conditions of sale. In "
+"order to be valid, any derogation must be expressly agreed to in advance in "
+"writing."
+msgstr ""
+
+#. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_lot.py:0
 #, python-format
@@ -8766,7 +8825,6 @@ msgid ""
 "This analysis gives you an overview of the current stock level of your "
 "products."
 msgstr ""
-"Ta analiza vam omogoča pregled trenutnega stanja zalog vaših izdelkov."
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_move__picked
@@ -8899,9 +8957,6 @@ msgid ""
 "better solution could be to archive the product and create a new one "
 "instead."
 msgstr ""
-"Ta izdelek je bil uporabljen pri vsaj enem popisu zalog. Ni priporočljivo "
-"spreminjati vrste izdelka, saj lahko povzroči neskladnost.  Namesto tega "
-"izdelek arhivirajte in ustvarite novega."
 
 #. module: stock
 #. odoo-python
@@ -8932,7 +8987,7 @@ msgstr "Količina je prikazana v privzeti enoti mere izdelka."
 #: code:addons/stock/static/src/views/list/inventory_report_list_model.js:0
 #, python-format
 msgid "This record already exists."
-msgstr "Ta zapis že obstaja"
+msgstr ""
 
 #. module: stock
 #. odoo-python
@@ -9698,7 +9753,7 @@ msgstr ""
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.replenishment_option_tree_view
 msgid "Warehouse Location"
-msgstr "Lokacija skladišča"
+msgstr ""
 
 #. module: stock
 #: model:ir.ui.menu,name:stock.menu_warehouse_config
@@ -9732,7 +9787,7 @@ msgstr "Proge skladišča"
 #: code:addons/stock/static/src/stock_forecasted/forecasted_warehouse_filter.xml:0
 #, python-format
 msgid "Warehouse:"
-msgstr "Skladišče:"
+msgstr ""
 
 #. module: stock
 #. odoo-javascript
@@ -10021,9 +10076,6 @@ msgid ""
 "if some stock moves have already been created with that number. This would "
 "lead to inconsistencies in your stock."
 msgstr ""
-"Izdelka, povezanega s serijsko številko ali številko serije, ne smete "
-"spremeniti, če je bilo s to številko že ustvarjenih nekaj premikov zalog. To"
-" bi povzročilo neskladja v zalogah."
 
 #. module: stock
 #. odoo-python
@@ -10053,11 +10105,6 @@ msgid ""
 "valuate your stock or change its rounding precision to a smaller value "
 "(example: 0.00001)."
 msgstr ""
-"Uporabljate enoto mere, ki je manjša od tiste, ki jo uporabljate za "
-"skladiščenje izdelka. To lahko privede to težav z zaokroževanjem rezervirane"
-" količine. Za vrednotenje zaloge morate uporabiti manjšo možno mersko enoto "
-"ali pa spremeniti natančnost zaokroževanja na manjšo vrednost (primer: "
-"0,00001)."
 
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_routes_form
@@ -10082,16 +10129,13 @@ msgid ""
 "stock move. If you need to change the type, you should first unreserve the "
 "stock move."
 msgstr ""
-"Vrste izdelka, ki je trenutno rezerviran za premik zalog, ne morete "
-"spremeniti. Če želite spremeniti vrsto izdelka, morate najprej preklicati "
-"rezervacijo premika zalog."
 
 #. module: stock
 #. odoo-python
 #: code:addons/stock/models/product.py:0
 #, python-format
 msgid "You can not change the type of a product that was already used."
-msgstr "Vrste že uporabljenega izdelka ne morete spremeniti."
+msgstr ""
 
 #. module: stock
 #. odoo-python
@@ -10123,7 +10167,7 @@ msgstr "Ne morete vnesti negativnih količin."
 #: code:addons/stock/models/stock_scrap.py:0
 #, python-format
 msgid "You can only enter positive quantities."
-msgstr "Vnesete lahko le pozitivne količine"
+msgstr ""
 
 #. module: stock
 #. odoo-python
@@ -10195,8 +10239,6 @@ msgstr ""
 #, python-format
 msgid "You cannot change the Scheduled Date on a done or cancelled transfer."
 msgstr ""
-"Načrtovanega datuma pri opravljenem ali preklicanem prenosu ne morete "
-"spreminjati."
 
 #. module: stock
 #. odoo-python
@@ -10205,8 +10247,6 @@ msgstr ""
 msgid ""
 "You cannot change the UoM for a stock move that has been set to 'Done'."
 msgstr ""
-"Ne morete spremeniti enoto mere za premik zaloge, ki ima status že "
-"opravljeno."
 
 #. module: stock
 #. odoo-python
@@ -10235,8 +10275,6 @@ msgid ""
 "this product. If you want to change the unit of measure, you should rather "
 "archive this product and create a new one."
 msgstr ""
-"Merske enote ne morete spreminjati, ker ima ta izdelek že zalogo. Če želite "
-"spremeniti enoto mere, morate ta izdelek arhivirati in ustvariti novega."
 
 #. module: stock
 #. odoo-python
@@ -10280,8 +10318,6 @@ msgid ""
 "You cannot perform the move because the unit of measure has a different "
 "category as the product unit of measure."
 msgstr ""
-"Premik ni mogoč, ker ima merska enota drugačno kategorijo kot merska enota "
-"izdelka"
 
 #. module: stock
 #. odoo-python
@@ -10300,8 +10336,6 @@ msgid ""
 "You cannot set a scrap location as the destination location for a "
 "manufacturing type operation."
 msgstr ""
-"Lokacije odpadkov ne morete nastaviti kot ciljno lokacijo za operacijo  tipa"
-" proizvodnja"
 
 #. module: stock
 #. odoo-python
@@ -10316,8 +10350,6 @@ msgstr "Ne morete razdeliti osnutka premika. Najprej mora biti potrjen."
 #, python-format
 msgid "You cannot split a stock move that has been set to 'Done' or 'Cancel'."
 msgstr ""
-"Ne morete razdeliti premika zaloge, ki je nastavljen na \"Končano\" ali "
-"\"Preklicano\"."
 
 #. module: stock
 #. odoo-python
@@ -10404,8 +10436,6 @@ msgid ""
 "You have to select a product unit of measure that is in the same category as"
 " the default unit of measure of the product"
 msgstr ""
-"Izbrati morate mersko enoto izdelka, ki je v isti kategoriji kot privzeta "
-"merska enota izdelka"
 
 #. module: stock
 #. odoo-python
@@ -10426,7 +10456,7 @@ msgstr ""
 #: code:addons/stock/models/stock_picking.py:0
 #, python-format
 msgid "You might want to update the locations of this transfer's operations"
-msgstr "Morda boste želeli posodobiti lokacije tega prenosa"
+msgstr ""
 
 #. module: stock
 #. odoo-python
@@ -10468,6 +10498,11 @@ msgid "You need to supply a Lot/Serial number for products %s."
 msgstr ""
 
 #. module: stock
+#: model_terms:res.company,invoice_terms_html:stock.res_company_1
+msgid "You should update this document to reflect your T&amp;C."
+msgstr ""
+
+#. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_warehouse.py:0
 #, python-format
@@ -10482,8 +10517,6 @@ msgid ""
 "You still have some active reordering rules on this product. Please archive "
 "or delete them first."
 msgstr ""
-"Za ta izdelek še vedno veljajo nekatera aktivna pravila za ponovno "
-"naročanje. Najprej jih arhivirajte ali izbrišite."
 
 #. module: stock
 #. odoo-javascript
@@ -10503,11 +10536,18 @@ msgid ""
 msgstr ""
 
 #. module: stock
+#: model_terms:res.company,lunch_notify_message:stock.res_company_1
+msgid ""
+"Your lunch has been delivered.\n"
+"Enjoy your meal!"
+msgstr ""
+
+#. module: stock
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
 #, python-format
 msgid "Your stock is currently empty"
-msgstr "Vaša zaloga je trenutno prazna"
+msgstr ""
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_picking_type__package_label_to_print__zpl
@@ -10547,7 +10587,7 @@ msgstr "]<br/>min:"
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
 #, python-format
 msgid "below the inventory"
-msgstr "pod zalogo"
+msgstr ""
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_res_config_settings__module_delivery_bpost
@@ -10669,7 +10709,7 @@ msgstr ""
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
 #, python-format
 msgid "minimum of"
-msgstr "najmanj"
+msgstr ""
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.exception_on_picking
@@ -10705,7 +10745,7 @@ msgstr ""
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
 #, python-format
 msgid "should be replenished"
-msgstr "je treba dopolniti"
+msgstr ""
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_product_category__filter_for_stock_putaway_rule
@@ -10724,7 +10764,7 @@ msgstr ""
 #: code:addons/stock/static/src/widgets/json_widget.xml:0
 #, python-format
 msgid "to reach the maximum of"
-msgstr "da bi dosegli največjo vrednost"
+msgstr ""
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_delivery_document

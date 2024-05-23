@@ -29,7 +29,6 @@ import {
     closestElement,
     closestBlock,
     getOffsetAndCharSize,
-    ZERO_WIDTH_CHARS,
 } from '../utils/utils.js';
 
 Text.prototype.oDeleteBackward = function (offset, alreadyMoved = false) {
@@ -52,7 +51,7 @@ const isDeletable = (node) => {
 }
 
 HTMLElement.prototype.oDeleteBackward = function (offset, alreadyMoved = false, offsetLimit) {
-    const contentIsZWS = ZERO_WIDTH_CHARS.includes(this.textContent);
+    const contentIsZWS = this.textContent === '\u200B';
     let moveDest;
     if (offset) {
         const leftNode = this.childNodes[offset - 1];
@@ -185,16 +184,13 @@ HTMLElement.prototype.oDeleteBackward = function (offset, alreadyMoved = false, 
          */
         if (
             !this.previousElementSibling &&
-            paragraphRelatedElements.includes(this.nodeName) &&
-            this.nodeName !== 'P' &&
+            ['BLOCKQUOTE', 'H1', 'H2', 'H3', 'PRE'].includes(this.nodeName) &&
             !closestLi
         ) {
-            if (!this.textContent) {
-                const p = document.createElement('p');
-                p.replaceChildren(...this.childNodes);
-                this.replaceWith(p);
-                setSelection(p, offset);
-            }
+            const p = document.createElement('p');
+            p.replaceChildren(...this.childNodes);
+            this.replaceWith(p);
+            setSelection(p, offset);
             return;
         } else {
             moveDest = leftPos(this);

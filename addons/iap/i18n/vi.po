@@ -5,7 +5,6 @@
 # Translators:
 # Nancy Momoland <thanh.np2502@gmail.com>, 2023
 # Wil Odoo, 2023
-# Thi Huong Nguyen, 2024
 # 
 msgid ""
 msgstr ""
@@ -13,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-05 12:31+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: Thi Huong Nguyen, 2024\n"
+"Last-Translator: Wil Odoo, 2023\n"
 "Language-Team: Vietnamese (https://app.transifex.com/odoo/teams/41243/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +23,7 @@ msgstr ""
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__account_info_id
 msgid "Account Info"
-msgstr "Thông tin tài khoản"
+msgstr ""
 
 #. module: iap
 #: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
@@ -47,13 +46,11 @@ msgstr "Tài khoản UUID"
 msgid ""
 "Account token is your authentication key for this service. Do not share it."
 msgstr ""
-"Token tài khoản là mã khóa xác minh dịch vụ này của bạn. Đừng chia sẻ với "
-"ai."
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__account_info_ids
 msgid "Accounts from IAP"
-msgstr "Tài khoản từ IAP"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__balance
@@ -64,7 +61,7 @@ msgstr "Số dư"
 #. module: iap
 #: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
 msgid "Buy Credit"
-msgstr "Mua tín dụng"
+msgstr ""
 
 #. module: iap
 #. odoo-javascript
@@ -113,7 +110,7 @@ msgstr "Tên hiển thị"
 #. module: iap
 #: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
 msgid "Hide Token"
-msgstr "Ẩn token"
+msgstr ""
 
 #. module: iap
 #: model:ir.ui.menu,name:iap.iap_root_menu
@@ -131,7 +128,7 @@ msgstr "Tài khoản IAP"
 #. module: iap
 #: model:ir.model,name:iap.model_iap_account_info
 msgid "IAP Account Info"
-msgstr "Thông tin tài khoản AIP"
+msgstr ""
 
 #. module: iap
 #: model:ir.ui.menu,name:iap.iap_account_menu
@@ -182,7 +179,7 @@ msgstr "Odoo IAP"
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account_info__service_name
 msgid "Related Service"
-msgstr "Dịch vụ liên quan"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__service_name
@@ -193,7 +190,7 @@ msgstr "Tên dịch vụ"
 #: model:ir.model.fields,field_description:iap.field_iap_account__show_token
 #: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
 msgid "Show Token"
-msgstr "Hiển thị token"
+msgstr ""
 
 #. module: iap
 #. odoo-javascript
@@ -222,7 +219,7 @@ msgstr "Ngưỡng"
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account_info__unit_name
 msgid "Unit Name"
-msgstr "Tên đơn vị"
+msgstr ""
 
 #. module: iap
 #. odoo-javascript
@@ -241,15 +238,15 @@ msgstr "View your IAP Services and recharge your credits"
 #: model:ir.model.fields,field_description:iap.field_iap_account__warn_me
 #: model:ir.model.fields,field_description:iap.field_iap_account_info__warn_me
 msgid "Warn me"
-msgstr "Cảnh báo tôi"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__warning_email
 #: model:ir.model.fields,field_description:iap.field_iap_account_info__warning_email
 msgid "Warning Email"
-msgstr "Email cảnh báo"
+msgstr ""
 
 #. module: iap
 #: model:ir.model.fields,help:iap.field_iap_account__warn_me
 msgid "We will send you an email when your balance gets below that threshold"
-msgstr "Chúng tôi sẽ gửi email cho bạn khi số dư của bạn dưới ngưỡng đó"
+msgstr ""

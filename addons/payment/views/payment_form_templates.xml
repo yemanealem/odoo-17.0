@@ -67,8 +67,12 @@
                 <!-- === Payment tokens === -->
                 <div t-if="tokens_sudo">
                     <!-- === Header === -->
-                    <h4 id="o_payment_tokens_heading" class="fs-6 small text-uppercase fw-bolder">
-                        Your payment methods
+                    <h4 id="o_payment_tokens_heading"
+                        class="d-flex gap-3 align-items-center mt-4 mb-3 fs-6 small text-uppercase
+                               fw-bolder"
+                    >
+                        <span>Your payment methods</span>
+                        <hr class="flex-grow-1 m-0"/>
                     </h4>
                     <!-- === Body === -->
                     <ul class="list-group">
@@ -92,9 +96,12 @@
                      t-att-class="'collapse' if collapse_payment_methods else ''"
                 >
                     <!-- === Header === -->
-                    <h4 class="fs-6 small text-uppercase fw-bolder">
+                    <h4 class="d-flex gap-3 align-items-center mt-4 mb-3 fs-6 small text-uppercase
+                               fw-bolder"
+                    >
                         <t t-if="not collapse_payment_methods">Choose a payment method</t>
                         <t t-else="">Other payment methods</t>
+                        <hr class="flex-grow-1 m-0"/>
                     </h4>
                     <!-- === Body === -->
                     <ul class="list-group">
@@ -221,7 +228,8 @@
             </div>
             <!-- === Payment method logo === -->
             <div t-call="payment.form_logo">
-                <t t-set="logo_pm_sudo" t-value="token_sudo.payment_method_id"/>
+                <t t-set="logo" t-value="token_sudo.payment_method_id.image_payment_form"/>
+                <t t-set="title" t-value="token_sudo.payment_method_id.name"/>
             </div>
         </div>
         <!-- === Inline form === -->
@@ -301,7 +309,8 @@
                         <t t-set="pm_index" t-value="0"/>
                         <t t-foreach="pms_to_display_sudo" t-as="pm_to_display_sudo">
                             <t t-if="pm_index &lt; 4" t-call="payment.form_logo">
-                                <t t-set="logo_pm_sudo" t-value="pm_to_display_sudo"/>
+                                <t t-set="logo" t-value="pm_to_display_sudo.image_payment_form"/>
+                                <t t-set="title" t-value="pm_to_display_sudo.name"/>
                             </t>
                             <t t-set="pm_index" t-value="pm_index + 1"/>
                         </t>
@@ -374,13 +383,13 @@
 
     <template id="payment.form_logo" name="Form Logo">
         <!-- Parameters description:
-            - logo_pm_sudo: The payment method whose logo to display, as a sudoed `payment.method`
-                            record.
+            - logo: The logo to display, as an `Image` field.
+            - title: The title to display on hover.
         -->
-        <span t-field="logo_pm_sudo.image_payment_form"
+        <span t-out="logo"
               t-options="{'widget': 'image', 'alt-field': 'name'}"
               class="position-relative d-block rounded overflow-hidden z-index-1 shadow-sm"
-              t-att-title="logo_pm_sudo.name"
+              t-att-title="title"
               data-bs-toggle="tooltip"
               data-bs-placement="top"
               data-bs-delay="0"

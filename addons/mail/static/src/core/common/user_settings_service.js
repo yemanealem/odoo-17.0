@@ -2,7 +2,6 @@
 
 import { browser } from "@web/core/browser/browser";
 import { registry } from "@web/core/registry";
-import { debounce } from "@web/core/utils/timing";
 
 export class UserSettings {
     id;
@@ -14,12 +13,6 @@ export class UserSettings {
     constructor(env, services) {
         this.orm = services.orm;
         this.store = services["mail.store"];
-        this.saveVoiceThresholdDebounce = debounce(() => {
-            browser.localStorage.setItem(
-                "mail_user_setting_voice_threshold",
-                this.voiceActivationThreshold.toString()
-            );
-        }, 2000);
         this.hasCanvasFilterSupport =
             typeof document.createElement("canvas").getContext("2d").filter !== "undefined";
         this._loadLocalSettings();
@@ -55,7 +48,7 @@ export class UserSettings {
     logRtc = false;
     pushToTalkKey;
     usePushToTalk = false;
-    voiceActiveDuration = 200;
+    voiceActiveDuration = 0;
     useBlur = false;
     volumeSettingsTimeouts = new Map();
     /**
@@ -152,7 +145,10 @@ export class UserSettings {
      */
     setThresholdValue(voiceActivationThreshold) {
         this.voiceActivationThreshold = voiceActivationThreshold;
-        this.saveVoiceThresholdDebounce();
+        browser.localStorage.setItem(
+            "mail_user_setting_voice_threshold",
+            voiceActivationThreshold.toString()
+        );
     }
 
     // methods

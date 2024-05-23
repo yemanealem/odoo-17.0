@@ -7,8 +7,7 @@ class AccountMoveSend(models.TransientModel):
     l10n_es_edi_facturae_enable_xml = fields.Boolean(compute='_compute_l10n_es_edi_facturae_enable_xml')
     l10n_es_edi_facturae_checkbox_xml = fields.Boolean(
         string="Generate Facturae edi file",
-        default=True,
-        company_dependent=True,
+        compute='_compute_l10n_es_edi_facturae_checkbox_xml',
     )
 
     def _get_wizard_values(self):
@@ -22,8 +21,9 @@ class AccountMoveSend(models.TransientModel):
         # EXTENDS 'account'
         values = super()._get_wizard_vals_restrict_to(only_options)
         return {
-            'l10n_es_edi_facturae_checkbox_xml': False,
             **values,
+            'l10n_es_edi_facturae_checkbox_xml': False,
+            **only_options,
         }
 
     # -------------------------------------------------------------------------

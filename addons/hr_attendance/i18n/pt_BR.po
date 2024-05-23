@@ -1031,7 +1031,7 @@ msgstr "Visão geral"
 #: code:addons/hr_attendance/static/src/components/pin_code/pin_code.xml:0
 #, python-format
 msgid "Please enter your PIN to"
-msgstr "Digite seu PIN para fazer"
+msgstr "Digite seu PIN para"
 
 #. module: hr_attendance
 #. odoo-javascript
@@ -1039,7 +1039,7 @@ msgstr "Digite seu PIN para fazer"
 #: code:addons/hr_attendance/static/src/components/pin_code/pin_code.xml:0
 #, python-format
 msgid "Please return to the main menu."
-msgstr "Rretorne ao menu principal."
+msgstr "Favor retornar ao menu principal."
 
 #. module: hr_attendance
 #: model:ir.model,name:hr_attendance.model_hr_employee_public
@@ -1307,11 +1307,11 @@ msgstr "Você não pode duplicar uma presença."
 #: code:addons/hr_attendance/static/src/components/pin_code/pin_code.xml:0
 #, python-format
 msgid "check in"
-msgstr "check-in"
+msgstr "entrada"
 
 #. module: hr_attendance
 #. odoo-javascript
 #: code:addons/hr_attendance/static/src/components/pin_code/pin_code.xml:0
 #, python-format
 msgid "check out"
-msgstr "check-out"
+msgstr "saída"

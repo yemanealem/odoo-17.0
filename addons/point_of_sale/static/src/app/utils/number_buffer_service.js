@@ -161,10 +161,7 @@ class NumberBuffer extends EventBus {
             : 0;
     }
     _onKeyboardInput(event) {
-        return (
-            this._currentBufferHolder &&
-            this._bufferEvents(this._onInput((event) => event.key))(event)
-        );
+        return this._bufferEvents(this._onInput((event) => event.key))(event);
     }
     sendKey(key) {
         const event = new CustomEvent("", {

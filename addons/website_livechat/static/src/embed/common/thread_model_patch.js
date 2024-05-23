@@ -9,8 +9,4 @@ patch(Thread.prototype, {
         super.update(data);
         assignDefined(this, data, ["requested_by_operator"]);
     },
-
-    get displayWelcomeMessage() {
-        return super.displayWelcomeMessage && !this.requested_by_operator;
-    },
 });

@@ -127,7 +127,7 @@ msgstr "Recepciones con retraso"
 #: code:addons/spreadsheet_dashboard_purchase_stock/data/files/purchase_dashboard.json:0
 #, python-format
 msgid "Lead Time to Receive"
-msgstr "Plazo de espera para recibir"
+msgstr "Tiempo de espera para recibir"
 
 #. module: spreadsheet_dashboard_purchase_stock
 #. odoo-javascript
@@ -267,7 +267,7 @@ msgstr "Cantidad pedida"
 #: code:addons/spreadsheet_dashboard_purchase_stock/data/files/purchase_dashboard.json:0
 #, python-format
 msgid "RFQ"
-msgstr "SdP"
+msgstr "Solicitud de presupuesto"
 
 #. module: spreadsheet_dashboard_purchase_stock
 #. odoo-javascript
@@ -345,14 +345,14 @@ msgstr "Proveedores principales"
 #: code:addons/spreadsheet_dashboard_purchase_stock/data/files/purchase_dashboard.json:0
 #, python-format
 msgid "Total Untaxed"
-msgstr "Total imponible"
+msgstr "Total libre de impuestos"
 
 #. module: spreadsheet_dashboard_purchase_stock
 #. odoo-javascript
 #: code:addons/spreadsheet_dashboard_purchase_stock/data/files/purchase_dashboard.json:0
 #, python-format
 msgid "Transfer"
-msgstr "Traslado"
+msgstr "Albarán"
 
 #. module: spreadsheet_dashboard_purchase_stock
 #. odoo-javascript

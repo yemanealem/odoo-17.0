@@ -13,6 +13,7 @@
 # Björn Hayer, 2023
 # Egils Verkstad <egils@riseup.net>, 2023
 # Mikael Åkerberg <mikael.akerberg@mariaakerberg.com>, 2023
+# Jakob Krabbe <jakob.krabbe@vertel.se>, 2023
 # Chrille Hedberg <hedberg.chrille@gmail.com>, 2023
 # Robin Calvin, 2023
 # Robert Frykelius <robert.frykelius@linserv.se>, 2023
@@ -23,7 +24,6 @@
 # Simon S, 2023
 # Levi Siuzdak (sile), 2023
 # Kristoffer Grundström <lovaren@gmail.com>, 2024
-# Jakob Krabbe <jakob.krabbe@vertel.se>, 2024
 # Anders Wallenquist <anders.wallenquist@vertel.se>, 2024
 # 
 msgid ""
@@ -293,11 +293,6 @@ msgstr ""
 #. module: purchase
 #: model_terms:ir.ui.view,arch_db:purchase.purchase_order_portal_content
 msgid "<i class=\"fa fa-fw fa-check\"/>Paid"
-msgstr ""
-
-#. module: purchase
-#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_portal_content
-msgid "<i class=\"fa fa-fw fa-check\"/>Reversed"
 msgstr ""
 
 #. module: purchase
@@ -1182,11 +1177,6 @@ msgid "Discount (%)"
 msgstr "Rabatt (%)"
 
 #. module: purchase
-#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
-msgid "Discount:"
-msgstr "Rabatt:"
-
-#. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_bill_union__display_name
 #: model:ir.model.fields,field_description:purchase.field_purchase_order__display_name
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_line__display_name
@@ -1288,7 +1278,7 @@ msgstr ""
 #: code:addons/purchase/models/account_invoice.py:0
 #, python-format
 msgid "From %s"
-msgstr "Från %s"
+msgstr ""
 
 #. module: purchase
 #. odoo-python

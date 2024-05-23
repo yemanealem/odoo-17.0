@@ -30,7 +30,6 @@ from odoo.tools import (
     groupby,
     index_exists,
     is_html_empty,
-    create_index,
 )
 
 _logger = logging.getLogger(__name__)
@@ -625,13 +624,6 @@ class AccountMove(models.Model):
                           ON account_move (journal_id, sequence_prefix desc, (sequence_number+1) desc)
             """)
 
-    def init(self):
-        super().init()
-        create_index(self.env.cr,
-                     indexname='account_move_journal_id_company_id_idx',
-                     tablename='account_move',
-                     expressions=['journal_id', 'company_id', 'date'])
-
     # -------------------------------------------------------------------------
     # COMPUTE METHODS
     # -------------------------------------------------------------------------
@@ -671,8 +663,6 @@ class AccountMove(models.Model):
                 accounting_date = move._get_accounting_date(move.invoice_date, move._affect_tax_report())
             if accounting_date and accounting_date != move.date:
                 move.date = accounting_date
-                # _affect_tax_report may trigger premature recompute of line_ids.date
-                self.env.add_to_compute(move.line_ids._fields['date'], move.line_ids)
                 # might be protected because `_get_accounting_date` requires the `name`
                 self.env.add_to_compute(self._fields['name'], move)
 
@@ -1416,7 +1406,7 @@ class AccountMove(models.Model):
     @api.depends('currency_id')
     def _compute_display_inactive_currency_warning(self):
         for move in self.with_context(active_test=False):
-            move.display_inactive_currency_warning = move.state == 'draft' and move.currency_id and not move.currency_id.active
+            move.display_inactive_currency_warning = move.currency_id and not move.currency_id.active
 
     @api.depends('company_id.account_fiscal_country_id', 'fiscal_position_id', 'fiscal_position_id.country_id', 'fiscal_position_id.foreign_vat')
     def _compute_tax_country_id(self):
@@ -1469,11 +1459,6 @@ class AccountMove(models.Model):
                     del context
                 move.narration = narration or False
 
-    def _get_partner_credit_warning_exclude_amount(self):
-        # to extend in module 'sale'; see there for details
-        self.ensure_one()
-        return 0
-
     @api.depends('company_id', 'partner_id', 'tax_totals', 'currency_id')
     def _compute_partner_credit_warning(self):
         for move in self:
@@ -1483,12 +1468,10 @@ class AccountMove(models.Model):
                            move.move_type == 'out_invoice' and \
                            move.company_id.account_use_credit_limit
             if show_warning:
-                total_field = 'amount_total' if move.currency_id == move.company_currency_id else 'amount_total_company_currency'
-                current_amount = move.tax_totals[total_field]
                 move.partner_credit_warning = self._build_credit_warning_message(
                     move,
-                    current_amount=current_amount,
-                    exclude_amount=move._get_partner_credit_warning_exclude_amount(),
+                    current_amount=move.tax_totals['amount_total'],
+                    exclude_current=True,
                 )
 
     @api.depends('partner_id')
@@ -1496,23 +1479,16 @@ class AccountMove(models.Model):
         for move in self:
             move.partner_credit = move.partner_id.commercial_partner_id.credit
 
-    def _build_credit_warning_message(self, record, current_amount=0.0, exclude_current=False, exclude_amount=0.0):
+    def _build_credit_warning_message(self, record, current_amount=0.0, exclude_current=False):
         """ Build the warning message that will be displayed in a yellow banner on top of the current record
             if the partner exceeds a credit limit (set on the company or the partner itself).
             :param record:                  The record where the warning will appear (Invoice, Sales Order...).
             :param current_amount (float):  The partner's outstanding credit amount from the current document.
-            :param exclude_current (bool):  DEPRECATED in favor of parameter `exclude_amount`:
-                                            Whether to exclude `current_amount` from the credit to invoice.
-            :param exclude_amount (float):  The amount to subtract from the partner's `credit_to_invoice`.
-                                            Consider the warning on a draft invoice created from a sales order.
-                                            After confirming the invoice the (partial) amount (on the invoice)
-                                            stemming from sales orders will be substracted from the `credit_to_invoice`.
-                                            This will reduce the total credit of the partner.
-                                            This parameter is used to reflect this amount.
+            :param exclude_current (bool):  Whether to exclude `current_amount` from the credit to invoice.
             :return (str):                  The warning message to be showed.
         """
         partner_id = record.partner_id.commercial_partner_id
-        credit_to_invoice = partner_id.credit_to_invoice - exclude_amount
+        credit_to_invoice = max(partner_id.credit_to_invoice - (current_amount if exclude_current else 0), 0)
         total_credit = partner_id.credit + credit_to_invoice + current_amount
         if not partner_id.credit_limit or total_credit <= partner_id.credit_limit:
             return ''
@@ -2443,9 +2419,9 @@ class AccountMove(models.Model):
                 for command, line_id, *line_vals in vals['invoice_line_ids']
                 if command == Command.UPDATE
             }
-            for command, line_id, *line_vals in vals['line_ids']:
+            for command, line_id, line_vals in vals['line_ids']:
                 if command == Command.UPDATE and line_id in update_vals:
-                    line_vals[0].update(update_vals.pop(line_id))
+                    line_vals.update(update_vals.pop(line_id))
             for line_id, line_vals in update_vals.items():
                 vals['line_ids'] += [Command.update(line_id, line_vals)]
             for command, line_id, *line_vals in vals['invoice_line_ids']:
@@ -3181,7 +3157,7 @@ class AccountMove(models.Model):
                 close_file(file_data)
                 continue
 
-            decoder = (current_invoice or current_invoice.new(self.default_get(['move_type', 'journal_id'])))._get_edi_decoder(file_data, new=new)
+            decoder = self._get_edi_decoder(file_data, new=new)
             if decoder:
                 try:
                     with self.env.cr.savepoint():
@@ -3574,8 +3550,7 @@ class AccountMove(models.Model):
             }[self.move_type]
             name += ' '
         if not self.name or self.name == '/':
-            if self.id:
-                name += '(* %s)' % str(self.id)
+            name += '(* %s)' % str(self.id)
         else:
             name += self.name
             if self.env.context.get('input_full_display_name'):
@@ -3954,7 +3929,7 @@ class AccountMove(models.Model):
     def _link_bill_origin_to_purchase_orders(self, timeout=10):
         for move in self.filtered(lambda m: m.move_type in self.get_purchase_types()):
             references = [move.invoice_origin] if move.invoice_origin else []
-            move._find_and_set_purchase_orders(references, move.partner_id.id, move.amount_total, timeout=timeout)
+            move._find_and_set_purchase_orders(references, move.partner_id.id, move.amount_total, timeout)
         return self
 
     # -------------------------------------------------------------------------
@@ -4506,22 +4481,6 @@ class AccountMove(models.Model):
         composer = self.env['account.move.send'].create(composer_vals)
         return composer.action_send_and_print(force_synchronous=force_synchronous, allow_fallback_pdf=allow_fallback_pdf, bypass_download=bypass_download)
 
-    def _get_invoice_legal_documents(self):
-        """ Return existing attachments or a temporary Pro Forma pdf. """
-        self.ensure_one()
-        if self.invoice_pdf_report_id:
-            attachments = self.env['account.move.send']._get_invoice_extra_attachments(self)
-        else:
-            content, _ = self.env['ir.actions.report']._render('account.account_invoices', self.ids, data={'proforma': True})
-            attachments = self.env['ir.attachment'].new({
-                'raw': content,
-                'name': self._get_invoice_proforma_pdf_report_filename(),
-                'mimetype': 'application/pdf',
-                'res_model': self._name,
-                'res_id': self.id,
-            })
-        return attachments
-
     def get_invoice_pdf_report_attachment(self):
         if len(self) < 2 and self.invoice_pdf_report_id:
             # if the Send & Print succeeded
@@ -4676,11 +4635,11 @@ class AccountMove(models.Model):
 
         # Search for partners in copy.
         cc_mail_addresses = email_split(msg_dict.get('cc', ''))
-        followers = [partner for partner in self._mail_find_partner_from_emails(cc_mail_addresses, extra_domain=extra_domain) if partner]
+        followers = [partner for partner in self._mail_find_partner_from_emails(cc_mail_addresses, extra_domain) if partner]
 
         # Search for partner that sent the mail.
         from_mail_addresses = email_split(msg_dict.get('from', ''))
-        senders = partners = [partner for partner in self._mail_find_partner_from_emails(from_mail_addresses, extra_domain=extra_domain) if partner]
+        senders = partners = [partner for partner in self._mail_find_partner_from_emails(from_mail_addresses, extra_domain) if partner]
 
         # Search for partners using the user.
         if not senders:
@@ -4693,7 +4652,7 @@ class AccountMove(models.Model):
                 body_mail_addresses = set(email_re.findall(msg_dict.get('body')))
                 partners = [
                     partner
-                    for partner in self._mail_find_partner_from_emails(body_mail_addresses, extra_domain=extra_domain)
+                    for partner in self._mail_find_partner_from_emails(body_mail_addresses, extra_domain)
                     if not is_internal_partner(partner) and partner.company_id.id in (False, company.id)
                 ]
         # Little hack: Inject the mail's subject in the body.
@@ -4749,7 +4708,7 @@ class AccountMove(models.Model):
 
         for invoice, attachments in attachments_per_invoice.items():
             if invoice == self:
-                invoice.attachment_ids |= attachments
+                invoice.attachment_ids = attachments.ids
                 new_message.attachment_ids = attachments.ids
                 message_values.update({'res_id': self.id, 'attachment_ids': [Command.link(attachment.id) for attachment in attachments]})
                 super(AccountMove, invoice)._message_post_after_hook(new_message, message_values)
@@ -4760,7 +4719,7 @@ class AccountMove(models.Model):
                     'res_id': invoice.id,
                     'attachment_ids': [Command.link(attachment.id) for attachment in attachments],
                 }
-                invoice.attachment_ids |= attachments
+                invoice.attachment_ids = attachments.ids
                 invoice.message_ids = [Command.set(sub_new_message.id)]
                 super(AccountMove, invoice)._message_post_after_hook(sub_new_message, sub_message_values)
 
@@ -4802,7 +4761,7 @@ class AccountMove(models.Model):
             'in_receipt': _('Purchase Receipt Created'),
         }[self.move_type]
 
-    def _notify_by_email_prepare_rendering_context(self, message, msg_vals=False, model_description=False,
+    def _notify_by_email_prepare_rendering_context(self, message, msg_vals, model_description=False,
                                                    force_email_company=False, force_email_lang=False):
         # EXTENDS mail mail.thread
         render_context = super()._notify_by_email_prepare_rendering_context(

@@ -128,10 +128,10 @@ describe('Editor', () => {
             });
         });
         describe('sanitize should modify p within li', () => {
-            it('should convert p into span if p has classes and split link items for each p', async () => {
+            it('should convert p into span if p has classes', async () => {
                 await testEditor(BasicEditor, {
                     contentBefore: '<ul><li><p class="class-1">abc</p><p class="class-2">def</p></li></ul>',
-                    contentAfter: '<ul><li><span class="class-1">abc</span></li><li class="oe-nested"><span class="class-2">def</span></li></ul>',
+                    contentAfter: '<ul><li><span class="class-1">abc</span><span class="class-2">def</span></li></ul>',
                 });
             });
         });
@@ -3314,31 +3314,9 @@ X[]
                     contentAfter: `<p>[]<br></p>`,
                 });
                 await testEditor(BasicEditor, {
-                    contentBefore: `<h1><br>[]</h1>`,
+                    contentBefore: `<h1>[]abcd</h1>`,
                     stepFunction: deleteBackward,
-                    contentAfter: `<p>[]<br></p>`,
-                });
-                await testEditor(BasicEditor, {
-                    contentBefore: `<h4><br>[]</h4>`,
-                    stepFunction: deleteBackward,
-                    contentAfter: `<p>[]<br></p>`,
-                });
-            });
-            it('should not delete the block and appends a paragraph if the element has textContent ', async () => {
-                await testEditor(BasicEditor, {
-                    contentBefore: `<h1>[]abc</h1>`,
-                    stepFunction: deleteBackward,
-                    contentAfter: `<h1>[]abc</h1>`,
-                });
-                await testEditor(BasicEditor, {
-                    contentBefore: `<h1><font style="background-color: rgb(255, 0, 0);">[]abc</font></h1>`,
-                    stepFunction: deleteBackward,
-                    contentAfter: `<h1><font style="background-color: rgb(255, 0, 0);">[]abc</font></h1>`,
-                });
-                await testEditor(BasicEditor, {
-                    contentBefore: `<table><tbody><tr><td><h1>[]ab</h1></td><td>cd</td><td>ef</td></tr><tr><td><br></td><td><br></td><td><br></td></tr></tbody></table>`,
-                    stepFunction: deleteBackward,
-                    contentAfter: `<table><tbody><tr><td><h1>[]ab</h1></td><td>cd</td><td>ef</td></tr><tr><td><br></td><td><br></td><td><br></td></tr></tbody></table>`,
+                    contentAfter: `<p>[]abcd</p>`,
                 });
             });
             describe('Nested editable zone (inside contenteditable=false element)', () => {
@@ -3777,8 +3755,9 @@ X[]
                         contentAfter: '<p><b>abc</b></p><p>[]<br></p>',
                     });
                 });
-                it('should insert line breaks outside the edges of an anchor in unbreakable', async () => {
+                it('should insert line breaks outside the edges of an anchor', async () => {
                     const pressEnter = editor => {
+                        editor._resetLinkZws(); // Any interaction causing insertParagraph should trigger this.
                         editor.document.execCommand('insertParagraph');
                     };
                     await testEditor(BasicEditor, {
@@ -3794,48 +3773,12 @@ X[]
                     await testEditor(BasicEditor, {
                         contentBefore: '<div><a>ab[]</a></div>',
                         stepFunction: pressEnter,
-                        contentAfter: '<div><a>ab</a><br><br>[]</div>',
+                        contentAfter: '<div><a>ab</a><br>[]<br></div>',
                     });
                     await testEditor(BasicEditor, {
                         contentBefore: '<div><a>ab[]</a>cd</div>',
                         stepFunction: pressEnter,
                         contentAfter: '<div><a>ab</a><br>[]cd</div>',
-                    });
-                });
-                it('should insert a paragraph break outside the starting edge of an anchor', async () => {
-                    await testEditor(BasicEditor, {
-                        contentBefore: '<p><a>[]ab</a></p>',
-                        stepFunction: editor => editor.document.execCommand('insertParagraph'),
-                        contentAfterEdit: '<p><br></p><p>\ufeff<a class="o_link_in_selection">[]\ufeffab\ufeff</a>\ufeff</p>',
-                        contentAfter: '<p><br></p><p><a>[]ab</a></p>',
-                    });
-                    await testEditor(BasicEditor, {
-                        contentBefore: '<p>ab<a>[]cd</a></p>',
-                        stepFunction: editor => editor.document.execCommand('insertParagraph'),
-                        contentAfterEdit: '<p>ab</p><p>\ufeff<a class="o_link_in_selection">[]\ufeffcd\ufeff</a>\ufeff</p>',
-                        contentAfter: '<p>ab</p><p><a>[]cd</a></p>',
-                    });
-                });
-                it('should insert a paragraph break in the middle of an anchor', async () => {
-                    await testEditor(BasicEditor, {
-                        contentBefore: '<p><a>a[]b</a></p>',
-                        stepFunction: editor => editor.document.execCommand('insertParagraph'),
-                        contentAfterEdit: '<p>\ufeff<a class="">\ufeffa\ufeff</a>\ufeff</p><p>\ufeff<a class="o_link_in_selection">\ufeff[]b\ufeff</a>\ufeff</p>',
-                        contentAfter: '<p><a>a</a></p><p><a>[]b</a></p>',
-                    });
-                });
-                it('should insert a paragraph break outside the ending edge of an anchor', async () => {
-                    await testEditor(BasicEditor, {
-                        contentBefore: '<p><a>ab[]</a></p>',
-                        stepFunction: editor => editor.document.execCommand('insertParagraph'),
-                        contentAfterEdit: '<p>\ufeff<a class="">\ufeffab\ufeff</a>\ufeff</p><p placeholder="Type &quot;/&quot; for commands" class="oe-hint oe-command-temporary-hint">[]<br></p>',
-                        contentAfter: '<p><a>ab</a></p><p>[]<br></p>',
-                    });
-                    await testEditor(BasicEditor, {
-                        contentBefore: '<p><a>ab[]</a>cd</p>',
-                        stepFunction: editor => editor.document.execCommand('insertParagraph'),
-                        contentAfterEdit: '<p>\ufeff<a class="">\ufeffab\ufeff</a>\ufeff</p><p>[]cd</p>',
-                        contentAfter: '<p><a>ab</a></p><p>[]cd</p>',
                     });
                 });
             });
@@ -6422,8 +6365,8 @@ X[]
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
                     },
-                    contentAfter: '<p>ab<span class="a">[\u200B]</span>cd</p>', // Normalized by the browser
-                    // Final state: '<p>ab<span class="a">[\u200B</span>c]d</p>'
+                    contentAfter: '<p>ab[<span class="a">\u200B]</span>cd</p>',
+                    // Final state: '<p>ab[<span class="a">\u200B</span>c]d</p>'
                 });
                 await testEditor(BasicEditor, {
                     contentBefore: '<p>ab<span class="a">[]\u200B</span>cd</p>',
@@ -6474,7 +6417,7 @@ X[]
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
                     },
-                    contentAfter: '<p>ab<span class="a">\u200B</span>]c[d</p>', // Normalized by the browser
+                    contentAfter: '<p>ab<span class="a">\u200B]</span>c[d</p>',
                     // Final state: '<p>ab<span class="a">\u200B</span>c[]d</p>'
                 });
                 await testEditor(BasicEditor, {
@@ -6482,7 +6425,7 @@ X[]
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight', shiftKey: true });
                     },
-                    contentAfter: '<p>ab<span class="a">\u200B</span>]c[d</p>', // Normalized by the browser
+                    contentAfter: '<p>ab<span class="a">\u200B]</span>c[d</p>',
                     // Final state: '<p>ab<span class="a">\u200B</span>c[]d</p>'
                 });
             });
@@ -6490,13 +6433,12 @@ X[]
                 await testEditor(BasicEditor, {
                     contentBefore: '<p>ab[]<a href="#">cd</a>ef</p>',
                     contentBeforeEdit: '<p>ab[]' +
-                        '\ufeff' + // before zwnbsp
                         '<a href="#">' +
-                            '\ufeff' + // start zwnbsp
+                            '<span data-o-link-zws="start" contenteditable="false">\u200B</span>' + // start zws
                             'cd' + // content
-                            '\ufeff' + // end zwnbsp
+                            // end zws is only there if the selection is in the link
                         '</a>' +
-                        '\ufeff' + // after zwnbsp
+                        '<span data-o-link-zws="after" contenteditable="false">\u200B</span>' + // after zws
                     'ef</p>',
                     stepFunction: async editor => {
                         triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight' });
@@ -6510,13 +6452,12 @@ X[]
                         }, editor.document);
                     },
                     contentAfterEdit: '<p>ab' +
-                        '\ufeff' + // before zwnbsp
                         '<a href="#" class="o_link_in_selection">' +
-                            '\ufeff' + // start zwnbsp
+                            '<span data-o-link-zws="start" contenteditable="false">\u200B</span>' + // start zws
                             '[]cd' + // content
-                            '\ufeff' + // end zwnbsp
+                            '<span data-o-link-zws="end">\u200B</span>' + // end zws
                         '</a>' +
-                        '\ufeff' + // after zwnbsp
+                        '<span data-o-link-zws="after" contenteditable="false">\u200B</span>' + // after zws
                     'ef</p>',
                     contentAfter: '<p>ab<a href="#">[]cd</a>ef</p>',
                 });
@@ -6525,25 +6466,31 @@ X[]
                 await testEditor(BasicEditor, {
                     contentBefore: '<p>ab<a href="#">cd[]</a>ef</p>',
                     contentBeforeEdit: '<p>ab' +
-                        '\ufeff' + // before zwnbsp
                         '<a href="#" class="o_link_in_selection">' +
-                            '\ufeff' + // start zwnbsp
+                            '<span data-o-link-zws="start" contenteditable="false">\u200B</span>' + // start zws
                             'cd[]' + // content
-                            '\ufeff' + // end zwnbsp
+                            '<span data-o-link-zws="end">\u200B</span>' + // end zws
                         '</a>' +
-                        '\ufeff' + // after zwnbsp
+                        '<span data-o-link-zws="after" contenteditable="false">\u200B</span>' + // after zws
                     'ef</p>',
                     stepFunction: async editor => {
-                        await triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight' });
+                        triggerEvent(editor.editable, 'keydown', { key: 'ArrowRight' });
+                        // Set the selection to mimick that which keydown would
+                        // have set, were it not blocked when triggered
+                        // programmatically.
+                        const endZws = editor.editable.querySelector('a > span[data-o-link-zws="end"]');
+                        await setTestSelection({
+                            anchorNode: endZws, anchorOffset: 1,
+                            focusNode: endZws, focusOffset: 1,
+                        }, editor.document);
                     },
                     contentAfterEdit: '<p>ab' +
-                        '\ufeff' + // before zwnbsp
                         '<a href="#" class="">' +
-                            '\ufeff' + // start zwnbsp
+                            '<span data-o-link-zws="start" contenteditable="false">\u200B</span>' + // start zws
                             'cd' + // content
-                            '\ufeff' + // end zwnbsp
+                            // end zws is only there if the selection is in the link
                         '</a>' +
-                        '\ufeff' + // after zwnbsp
+                        '<span data-o-link-zws="after" contenteditable="false">\u200B</span>' + // after zws
                     '[]ef</p>',
                     contentAfter: '<p>ab<a href="#">cd</a>[]ef</p>',
                 });
@@ -6556,16 +6503,14 @@ X[]
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft'});
                     },
-                    contentAfter: '<p>ab[]<span class="a">\u200B</span>cd</p>', // Normalized by the browser
-                    // Final state: '<p>a[]b<span class="a">\u200B</span>cd</p>'
+                    contentAfter: '<p>ab<span class="a">[]\u200B</span>cd</p>',
                 });
                 await testEditor(BasicEditor, {
                     contentBefore: '<p>ab<span class="a">\u200B</span>[]cd</p>',
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft'});
                     },
-                    contentAfter: '<p>ab[]<span class="a">\u200B</span>cd</p>', // Normalized by the browser
-                    // Final state: '<p>a[]b<span class="a">\u200B</span>cd</p>'
+                    contentAfter: '<p>ab<span class="a">[]\u200B</span>cd</p>',
                 });
                 await testEditor(BasicEditor, {
                     contentBefore: '<p><span class="a">\u200B</span></p><p><span class="b">[]\u200B</span>ab</p>',
@@ -6644,23 +6589,23 @@ X[]
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft', shiftKey: true });
                     },
-                    contentAfter: '<p>ab[]<span class="a">\u200B</span>cd</p>', // Normalized by the browser
-                    // Final state: '<p>a]b[<span class="a">\u200B</span>cd</p>'
+                    contentAfter: '<p>ab<span class="a">[]\u200B</span>cd</p>',
+                    // Final state: '<p>a]b<span class="a">[\u200B</span>cd</p>'
                 });
                 await testEditor(BasicEditor, {
                     contentBefore: '<p>ab<span class="a">[\u200B</span>]cd</p>',
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft', shiftKey: true });
                     },
-                    contentAfter: '<p>ab[]<span class="a">\u200B</span>cd</p>', // Normalized by the browser
-                    // Final state: '<p>a]b[<span class="a">\u200B</span>cd</p>'
+                    contentAfter: '<p>ab<span class="a">[]\u200B</span>cd</p>',
+                    // Final state: '<p>a]b<span class="a">[\u200B</span>cd</p>'
                 });
                 await testEditor(BasicEditor, {
                     contentBefore: '<p>ab[<span class="a">\u200B]</span>cd</p>',
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft', shiftKey: true });
                     },
-                    contentAfter: '<p>ab[]<span class="a">\u200B</span>cd</p>', // Normalized by the browser
+                    contentAfter: '<p>ab[<span class="a">]\u200B</span>cd</p>',
                     // Final state: '<p>a]b[<span class="a">\u200B</span>cd</p>'
                 });
                 await testEditor(BasicEditor, {
@@ -6668,7 +6613,7 @@ X[]
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft', shiftKey: true });
                     },
-                    contentAfter: '<p>ab[]<span class="a">\u200B</span>cd</p>', // Normalized by the browser
+                    contentAfter: '<p>ab[<span class="a">]\u200B</span>cd</p>',
                     // Final state: '<p>a]b[<span class="a">\u200B</span>cd</p>'
                 });
             });
@@ -6678,7 +6623,7 @@ X[]
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft', shiftKey: true });
                     },
-                    contentAfter: '<p>a[b]<span class="a">\u200B</span>cd</p>', // Normalized by the browser
+                    contentAfter: '<p>a[b<span class="a">]\u200B</span>cd</p>',
                     // Final state: '<p>a[]b<span class="a">\u200B</span>cd</p>'
                 });
                 await testEditor(BasicEditor, {
@@ -6686,7 +6631,7 @@ X[]
                     stepFunction: async editor => {
                         await triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft', shiftKey: true });
                     },
-                    contentAfter: '<p>a[b]<span class="a">\u200B</span>cd</p>', // Normalized by the browser
+                    contentAfter: '<p>a[b<span class="a">]\u200B</span>cd</p>',
                     // Final state: '<p>a[]b<span class="a">\u200B</span>cd</p>'
                 });
             });
@@ -6694,13 +6639,12 @@ X[]
                 await testEditor(BasicEditor, {
                     contentBefore: '<p>ab<a href="#">[]cd</a>ef</p>',
                     contentBeforeEdit: '<p>ab' +
-                        '\ufeff' + // before zwnbsp
                         '<a href="#" class="o_link_in_selection">' +
-                            '\ufeff' + // start zwnbsp
+                            '<span data-o-link-zws="start" contenteditable="false">\u200B</span>' + // start zws
                             '[]cd' + // content
-                            '\ufeff' + // end zwnbsp
+                            '<span data-o-link-zws="end">\u200B</span>' + // end zws
                         '</a>' +
-                        '\ufeff' + // after zwnbsp
+                        '<span data-o-link-zws="after" contenteditable="false">\u200B</span>' + // after zws
                     'ef</p>',
                     stepFunction: async editor => {
                         triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft' });
@@ -6714,13 +6658,12 @@ X[]
                         }, editor.document);
                     },
                     contentAfterEdit: '<p>ab[]' +
-                        '\ufeff' + // before zwnbsp
                         '<a href="#" class="">' +
-                            '\ufeff' + // start zwnbsp
+                            '<span data-o-link-zws="start" contenteditable="false">\u200B</span>' + // start zws
                             'cd' + // content
-                            '\ufeff' + // end zwnbsp
+                            // end zws is only there if the selection is in the link
                         '</a>' +
-                        '\ufeff' + // after zwnbsp
+                        '<span data-o-link-zws="after" contenteditable="false">\u200B</span>' + // after zws
                     'ef</p>',
                     contentAfter: '<p>ab[]<a href="#">cd</a>ef</p>',
                 });
@@ -6729,13 +6672,12 @@ X[]
                 await testEditor(BasicEditor, {
                     contentBefore: '<p>ab<a href="#">cd</a>[]ef</p>',
                     contentBeforeEdit: '<p>ab' +
-                        '\ufeff' + // before zwnbsp
                         '<a href="#">' +
-                            '\ufeff' + // start zwnbsp
+                            '<span data-o-link-zws="start" contenteditable="false">\u200B</span>' + // start zws
                             'cd' + // content
-                            '\ufeff' + // end zwnbsp
+                            // end zws is only there if the selection is in the link
                         '</a>' +
-                        '\ufeff' + // after zwnbsp
+                        '<span data-o-link-zws="after" contenteditable="false">\u200B</span>' + // after zws
                     '[]ef</p>',
                     stepFunction: async editor => {
                         triggerEvent(editor.editable, 'keydown', { key: 'ArrowLeft' });
@@ -6749,13 +6691,12 @@ X[]
                         }, editor.document);
                     },
                     contentAfterEdit: '<p>ab' +
-                        '\ufeff' + // before zwnbsp
                         '<a href="#" class="o_link_in_selection">' +
-                            '\ufeff' + // start zwnbsp
+                            '<span data-o-link-zws="start" contenteditable="false">\u200B</span>' + // start zws
                             'cd[]' + // content
-                            '\ufeff' + // end zwnbsp
+                            '<span data-o-link-zws="end">\u200B</span>' + // end zws
                         '</a>' +
-                        '\ufeff' + // after zwnbsp
+                        '<span data-o-link-zws="after" contenteditable="false">\u200B</span>' + // after zws
                     'ef</p>',
                     contentAfter: '<p>ab<a href="#">cd[]</a>ef</p>',
                 });

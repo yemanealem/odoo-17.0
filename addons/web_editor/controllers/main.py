@@ -451,7 +451,7 @@ class Web_Editor(http.Controller):
 
         # Compile regex outside of the loop
         # This will used to exclude library scss files from the result
-        excluded_url_matcher = re.compile(r"^(.+/lib/.+)|(.+import_bootstrap.+\.scss)$")
+        excluded_url_matcher = re.compile("^(.+/lib/.+)|(.+import_bootstrap.+\.scss)$")
 
         # First check the t-call-assets used in the related views
         url_infos = dict()
@@ -757,20 +757,16 @@ class Web_Editor(http.Controller):
         for id, url in response.json().items():
             req = requests.get(url)
             name = '_'.join([media[id]['query'], url.split('/')[-1]])
-            IrAttachment = request.env['ir.attachment']
-            attachment_data = {
+            # Need to bypass security check to write image with mimetype image/svg+xml
+            # ok because svgs come from whitelisted origin
+            attachment = request.env['ir.attachment'].with_user(SUPERUSER_ID).create({
                 'name': name,
                 'mimetype': req.headers['content-type'],
                 'public': True,
                 'raw': req.content,
                 'res_model': 'ir.ui.view',
                 'res_id': 0,
-            }
-            attachment = get_existing_attachment(IrAttachment, attachment_data)
-            # Need to bypass security check to write image with mimetype image/svg+xml
-            # ok because svgs come from whitelisted origin
-            if not attachment:
-                attachment = IrAttachment.with_user(SUPERUSER_ID).create(attachment_data)
+            })
             if media[id]['is_dynamic_svg']:
                 colorParams = werkzeug.urls.url_encode(media[id]['dynamic_colors'])
                 attachment['url'] = '/web_editor/shape/illustration/%s?%s' % (slug(attachment), colorParams)
@@ -806,18 +802,15 @@ class Web_Editor(http.Controller):
         try:
             IrConfigParameter = request.env['ir.config_parameter'].sudo()
             olg_api_endpoint = IrConfigParameter.get_param('web_editor.olg_api_endpoint', DEFAULT_OLG_ENDPOINT)
-            database_id = IrConfigParameter.get_param('database.uuid')
             response = iap_tools.iap_jsonrpc(olg_api_endpoint + "/api/olg/1/chat", params={
                 'prompt': prompt,
                 'conversation_history': conversation_history or [],
-                'database_id': database_id,
+                'version': release.version,
             }, timeout=30)
             if response['status'] == 'success':
                 return response['content']
             elif response['status'] == 'error_prompt_too_long':
                 raise UserError(_("Sorry, your prompt is too long. Try to say it in fewer words."))
-            elif response['status'] == 'limit_call_reached':
-                raise UserError(_("You have reached the maximum number of requests for this service. Try again later."))
             else:
                 raise UserError(_("Sorry, we could not generate a response. Please try again later."))
         except AccessError:

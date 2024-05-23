@@ -99,15 +99,14 @@ export class TablePicker extends EventTarget {
     }
 
     _showFloating() {
-        const isRtl = this.options.direction === 'rtl';
         const keydown = e => {
             const actions = {
                 ArrowRight: {
-                    colNumber: (this.colNumber + (isRtl ? -1 : 1)) || 1,
+                    colNumber: this.colNumber + 1,
                     rowNumber: this.rowNumber,
                 },
                 ArrowLeft: {
-                    colNumber: (this.colNumber + (isRtl ? 1 : -1)) || 1,
+                    colNumber: this.colNumber - 1 || 1,
                     rowNumber: this.rowNumber,
                 },
                 ArrowUp: {
@@ -136,12 +135,7 @@ export class TablePicker extends EventTarget {
         };
 
         const offset = getRangePosition(this.el, this.options.document, this.options);
-        if (isRtl) {
-            this.el.style.right = `${offset.right}px`;
-        } else {
-            this.el.style.left = `${offset.left}px`;
-        }
-
+        this.el.style.left = `${offset.left}px`;
         this.el.style.top = `${offset.top}px`;
 
         const stop = () => {

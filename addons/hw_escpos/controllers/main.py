@@ -11,13 +11,12 @@ import time
 import netifaces as ni
 import traceback
 
-escpos = printer = None
-try:
+try: 
     from .. escpos import *
     from .. escpos.exceptions import *
     from .. escpos.printer import Usb
 except ImportError:
-    pass
+    escpos = printer = None
 
 from queue import Queue
 from threading import Thread, Lock

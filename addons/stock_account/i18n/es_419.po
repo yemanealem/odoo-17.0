@@ -139,7 +139,7 @@ msgstr "Agregar valoración manual"
 msgid ""
 "Add additional cost (transport, customs, ...) in the value of the product."
 msgstr ""
-"Agregue el costo adicional (transporte, aduanal, entre otros) al valor del "
+"Agregue un costo adicional (transporte, aduanas, ...) en el valor del "
 "producto."
 
 #. module: stock_account

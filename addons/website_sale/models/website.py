@@ -294,10 +294,7 @@ class Website(models.Model):
         return pricelist
 
     def sale_product_domain(self):
-        website_domain = self.get_current_website().website_domain()
-        if not self.env.user._is_internal():
-            website_domain = expression.AND([website_domain, [('is_published', '=', True)]])
-        return expression.AND([self._product_domain(), website_domain])
+        return expression.AND([self._product_domain(), self.get_current_website().website_domain()])
 
     def _product_domain(self):
         return [('sale_ok', '=', True)]
@@ -423,7 +420,7 @@ class Website(models.Model):
         addr = partner_sudo.address_get(['delivery', 'invoice'])
         if not request.website.is_public_user():
             last_sale_order = self.env['sale.order'].sudo().search(
-                [('partner_id', '=', partner_sudo.id), ('website_id', '=', self.id)],
+                [('partner_id', '=', partner_sudo.id)],
                 limit=1,
                 order="date_order desc, id desc",
             )

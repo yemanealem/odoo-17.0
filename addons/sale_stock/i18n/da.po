@@ -355,7 +355,7 @@ msgstr "JSON data for popover widget'en"
 #. module: sale_stock
 #: model:ir.model,name:sale_stock.model_account_move
 msgid "Journal Entry"
-msgstr "Journalbilag"
+msgstr "Postering"
 
 #. module: sale_stock
 #: model:ir.model,name:sale_stock.model_account_move_line

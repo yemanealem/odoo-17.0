@@ -81,7 +81,7 @@ msgstr ""
 #. module: hr_recruitment_survey
 #: model:survey.question,title:hr_recruitment_survey.survey_recruitment_form_p1
 msgid "About you"
-msgstr "Sobre usted"
+msgstr "Acerca de ti"
 
 #. module: hr_recruitment_survey
 #: model:survey.question,title:hr_recruitment_survey.survey_recruitment_form_p1_q7
@@ -129,17 +129,17 @@ msgstr "¿De qué universidad se graduó o se graduará? "
 #. module: hr_recruitment_survey
 #: model:survey.question.answer,value:hr_recruitment_survey.survey_recruitment_form_p1_q8_row2
 msgid "Getting on with colleagues"
-msgstr "Tener buena relación con los compañeros de trabajo"
+msgstr "Relacionate con tus compañeros"
 
 #. module: hr_recruitment_survey
 #: model:survey.question.answer,value:hr_recruitment_survey.survey_recruitment_form_p1_q8_row8
 msgid "Getting perks such as free parking, gym passes"
-msgstr "Tener beneficios como estacionamiento gratuito, pases de gimnasio"
+msgstr "Obten beneficios como estacionamiento gratuito, pases de gimnasio"
 
 #. module: hr_recruitment_survey
 #: model:survey.question.answer,value:hr_recruitment_survey.survey_recruitment_form_p1_q8_row1
 msgid "Having a good pay"
-msgstr "Tener un buen sueldo"
+msgstr "Ten un buen sueldo"
 
 #. module: hr_recruitment_survey
 #: model:survey.question.answer,value:hr_recruitment_survey.survey_recruitment_form_p1_q8_row3
@@ -149,7 +149,7 @@ msgstr "Un ambiente agradable en la oficina"
 #. module: hr_recruitment_survey
 #: model:survey.question.answer,value:hr_recruitment_survey.survey_recruitment_form_p1_q8_row7
 msgid "Having freebies such as tea, coffee and stationery"
-msgstr "Regalos gratís como té, café y artículos de papelería"
+msgstr "Regalos gratís como té, café y papelería."
 
 #. module: hr_recruitment_survey
 #: model:survey.question.answer,value:hr_recruitment_survey.survey_recruitment_form_p1_q8_col2
@@ -244,9 +244,7 @@ msgstr "Indique el nombre del candidato."
 #: model_terms:survey.question,description:hr_recruitment_survey.survey_recruitment_form_p1_q5
 msgid ""
 "Please summarize your education history: schools, location, diplomas, ..."
-msgstr ""
-"Haga un resumen sobre su historial académico: escuelas, ubicación, diplomas,"
-" etc."
+msgstr "Resuma su historial académico: escuelas, ubicación, diplomas, etc."
 
 #. module: hr_recruitment_survey
 #: model_terms:survey.question,description:hr_recruitment_survey.survey_recruitment_form_p1_q7
@@ -348,4 +346,4 @@ msgstr "¿Cuál es su país de origen? "
 #. module: hr_recruitment_survey
 #: model:survey.question.answer,value:hr_recruitment_survey.survey_recruitment_form_p1_q8_row4
 msgid "Working with state of the art technology"
-msgstr "Trabajar con tecnología de vanguardia"
+msgstr "Trabajando con tecnología de vanguardia"

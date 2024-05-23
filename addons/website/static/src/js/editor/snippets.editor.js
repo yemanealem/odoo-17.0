@@ -194,14 +194,6 @@ const wSnippetMenu = weSnippetEditor.SnippetsMenu.extend({
         if (gridColumnsEl) {
             gridColumnsEl.dataset.selector = ".row:not(.s_col_no_resize) > div";
         }
-
-        // Remove the input-border-width-sm and input-border-width-lg from the input-border-width
-        ['input-border-width-sm', 'input-border-width-lg'].forEach(variable => {
-            const element = $html.find(
-                `[data-selector='theme-input'] we-input[data-customize-website-variable][data-variable='${variable}']`
-            )[0];
-            element.remove();
-        });
     },
     /**
      * Depending of the demand, reconfigure they gmap key or configure it
@@ -389,18 +381,6 @@ const wSnippetMenu = weSnippetEditor.SnippetsMenu.extend({
         // As the toolbar displays css variable that are customizable by users,
         // we have the recompute the font size selector values.
         this.options.wysiwyg.odooEditor.computeFontSizeSelectorValues();
-    },
-    /**
-    * @override
-    */
-    _checkEditorToolbarVisibility: function (e) {
-        this._super(...arguments);
-        // Close the option's dropdowns manually on outside click if any open.
-        if (this._$toolbarContainer && this._$toolbarContainer.length) {
-            this._$toolbarContainer[0].querySelectorAll(".dropdown-toggle.show").forEach(toggleEl => {
-                Dropdown.getOrCreateInstance(toggleEl).hide();
-            });
-        }
     },
     /**
      * Activates & deactivates the button used to add text options, depending

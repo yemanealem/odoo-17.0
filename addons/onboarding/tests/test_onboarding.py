@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import unittest
-
 from psycopg2 import IntegrityError
 
 from odoo import Command
@@ -219,7 +217,6 @@ class TestOnboarding(TestOnboardingCommon):
         self.step_initially_w_o_onboarding.with_company(self.company_2).action_set_just_done()
         self.assert_onboarding_is_done(self.onboarding_3.with_company(self.company_2))
 
-    @unittest.skip("Company deletion can fail because of other foreign key constraints.")
     def test_remove_company_with_progress(self):
         user = mail_new_test_user(
             self.env,

@@ -43,14 +43,14 @@ msgstr "Promoción automática: envío gratuito en órdenes superiores a 50 $"
 #. module: sale_loyalty_delivery
 #: model:ir.model.fields.selection,name:sale_loyalty_delivery.selection__loyalty_reward__reward_type__shipping
 msgid "Free Shipping"
-msgstr "Envío gratuito"
+msgstr "Envío gratis"
 
 #. module: sale_loyalty_delivery
 #. odoo-python
 #: code:addons/sale_loyalty_delivery/models/sale_order.py:0
 #, python-format
 msgid "Free Shipping - %s"
-msgstr "Envío gratuito - %s"
+msgstr "Envío gratis - %s"
 
 #. module: sale_loyalty_delivery
 #. odoo-python
@@ -64,12 +64,12 @@ msgstr "Envío gratuito"
 #. module: sale_loyalty_delivery
 #: model:ir.model,name:sale_loyalty_delivery.model_loyalty_program
 msgid "Loyalty Program"
-msgstr "Programa de fidelización"
+msgstr "Programa de fidelidad"
 
 #. module: sale_loyalty_delivery
 #: model:ir.model,name:sale_loyalty_delivery.model_loyalty_reward
 msgid "Loyalty Reward"
-msgstr "Recompensa de fidelidad"
+msgstr "Recompensa"
 
 #. module: sale_loyalty_delivery
 #: model:ir.model.fields,field_description:sale_loyalty_delivery.field_loyalty_reward__reward_type

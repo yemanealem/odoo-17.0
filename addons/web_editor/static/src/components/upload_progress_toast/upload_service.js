@@ -2,11 +2,9 @@
 
 import { registry } from '@web/core/registry';
 import { UploadProgressToast } from './upload_progress_toast';
-import { _t } from "@web/core/l10n/translation";
 import { checkFileSize } from "@web/core/utils/files";
 import { humanNumber } from "@web/core/utils/numbers";
 import { getDataURLFromFile } from "@web/core/utils/urls";
-import { sprintf } from "@web/core/utils/strings";
 import { reactive } from "@odoo/owl";
 
 export const AUTOCLOSE_DELAY = 3000;
@@ -96,20 +94,7 @@ export const uploadService = {
                 // limited by bandwidth.
                 for (const sortedFile of sortedFiles) {
                     const file = progressToast.files[sortedFile.progressToastId];
-                    let dataURL;
-                    try {
-                        dataURL = await getDataURLFromFile(sortedFile);
-                    } catch {
-                        deleteFile(file.id);
-                        env.services.notification.add(
-                            sprintf(
-                                _t('Could not load the file "%s".'),
-                                sortedFile.name
-                            ),
-                            { type: 'danger' }
-                        );
-                        continue
-                    }
+                    const dataURL = await getDataURLFromFile(sortedFile);
                     try {
                         const xhr = new XMLHttpRequest();
                         xhr.upload.addEventListener('progress', ev => {

@@ -865,11 +865,7 @@ var SnippetEditor = Widget.extend({
             onDragStart: (args) => {
                 this.dragStarted = true;
                 const targetRect = this.$target[0].getBoundingClientRect();
-                // Bound the Y mouse position to the element height minus one
-                // grid row, to be able to drag from the bottom in a grid.
-                const gridRowSize = gridUtils.rowSize;
-                const boundedYMousePosition = Math.min(args.y, targetRect.bottom - gridRowSize);
-                this.mousePositionYOnElement = boundedYMousePosition - targetRect.y;
+                this.mousePositionYOnElement = args.y - targetRect.y;
                 this.mousePositionXOnElement = args.x - targetRect.x;
                 this._onDragAndDropStart(args);
             },
@@ -1683,9 +1679,9 @@ var SnippetEditor = Widget.extend({
         const bottom = top + columnHeight;
         let left = x - rowElLeft - this.mousePositionXOnElement;
 
-        // Horizontal and top overflow.
+        // Horizontal & vertical overflow.
         left = clamp(left, 0, rowEl.clientWidth - columnWidth);
-        top = top < 0 ? 0 : top;
+        top = clamp(top, 0, rowEl.clientHeight - columnHeight);
 
         columnEl.style.top = top + 'px';
         columnEl.style.left = left + 'px';
@@ -2032,7 +2028,9 @@ var SnippetsMenu = Widget.extend({
         if (!this.$scrollingElement[0]) {
             this.$scrollingElement = $(this.ownerDocument).find('.o_editable');
         }
-        this.$scrollingTarget = $().getScrollingTarget(this.$scrollingElement);
+        this.$scrollingTarget = this.$scrollingElement.is(this.$body[0].ownerDocument.scrollingElement)
+            ? $(this.$body[0].ownerDocument.defaultView)
+            : this.$scrollingElement;
         this._onScrollingElementScroll = throttleForAnimation(() => {
             for (const editor of this.snippetEditors) {
                 editor.toggleOverlayVisibility(false);
@@ -3200,15 +3198,11 @@ var SnippetsMenu = Widget.extend({
             var $snippet = $(this);
             var $snippetBody = $snippet.find('.oe_snippet_body');
             const isSanitizeForbidden = $snippet.data('oeForbidSanitize');
-            const checkSanitize = isSanitizeForbidden === "form"
-                ? (el) => !el.closest('[data-oe-sanitize]:not([data-oe-sanitize="allow_form"])')
+            const filterSanitize = isSanitizeForbidden === 'form'
+                ? $els => $els.filter((i, el) => !el.closest('[data-oe-sanitize]:not([data-oe-sanitize="allow_form"])'))
                 : isSanitizeForbidden
-                    ? (el) => !el.closest('[data-oe-sanitize]')
-                    : () => true;
-            const isVisible = (el) => el.closest(".o_snippet_invisible")
-                ? !(el.offsetHeight === 0 || el.offsetWidth === 0)
-                : true;
-            const canDrop = ($els) => [...$els].some((el) => checkSanitize(el) && isVisible(el));
+                    ? $els => $els.filter((i, el) => !el.closest('[data-oe-sanitize]'))
+                    : $els => $els;
 
             var check = false;
             self.templateOptions.forEach((option, k) => {
@@ -3218,8 +3212,8 @@ var SnippetsMenu = Widget.extend({
 
                 k = isSanitizeForbidden ? 'forbidden/' + k : k;
                 cache[k] = cache[k] || {
-                    'drop-near': option['drop-near'] ? canDrop(option['drop-near'].all()) : false,
-                    'drop-in': option['drop-in'] ? canDrop(option['drop-in'].all()) : false,
+                    'drop-near': option['drop-near'] ? filterSanitize(option['drop-near'].all()).length : 0,
+                    'drop-in': option['drop-in'] ? filterSanitize(option['drop-in'].all()).length : 0,
                 };
                 check = (cache[k]['drop-near'] || cache[k]['drop-in']);
             });
@@ -4044,9 +4038,7 @@ var SnippetsMenu = Widget.extend({
         const $snippet = $(this.invisibleDOMMap.get(ev.currentTarget));
         const isVisible = await this._execWithLoadingEffect(async () => {
             const editor = await this._createSnippetEditor($snippet);
-            const show = editor.toggleTargetVisibility();
-            this._disableUndroppableSnippets();
-            return show;
+            return editor.toggleTargetVisibility();
         }, true);
         $(ev.currentTarget).find('.fa')
             .toggleClass('fa-eye', isVisible)

@@ -35,10 +35,6 @@ paymentButton.include({
             return false; // Nothing else to check.
         }
         const carriersContainer = checkedCarriers[0].closest('.o_delivery_carrier_select');
-        if (carriersContainer.querySelector('.o_wsale_delivery_carrier_error')) {
-            // Rate shipment error.
-            return false;
-        }
         const isPickUpPointRequired = carriersContainer.querySelector('.o_show_pickup_locations');
         if (isPickUpPointRequired) {
             const address = carriersContainer.querySelector(

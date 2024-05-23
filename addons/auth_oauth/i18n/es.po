@@ -40,12 +40,12 @@ msgstr "Acceso denegado"
 #. module: auth_oauth
 #: model:ir.model.fields,field_description:auth_oauth.field_res_config_settings__auth_oauth_google_enabled
 msgid "Allow users to sign in with Google"
-msgstr "Permita que los usuarios inicien sesión con Google"
+msgstr "Permitir a los usuarios acceder con Google"
 
 #. module: auth_oauth
 #: model_terms:ir.ui.view,arch_db:auth_oauth.res_config_settings_view_form
 msgid "Allow users to sign in with their Google account"
-msgstr "Permita que los usuarios inicien sesión con su cuenta de Google"
+msgstr "Permitir a los usuarios firmar con su cuenta Google"
 
 #. module: auth_oauth
 #: model:ir.model.fields,field_description:auth_oauth.field_auth_oauth_provider__enabled
@@ -207,7 +207,7 @@ msgstr "Secuencia"
 #. module: auth_oauth
 #: model:ir.model.fields,field_description:auth_oauth.field_res_config_settings__server_uri_google
 msgid "Server uri"
-msgstr "URI del servidor"
+msgstr "Servidor uri"
 
 #. module: auth_oauth
 #. odoo-python
@@ -229,7 +229,7 @@ msgstr "Usuario"
 #. module: auth_oauth
 #: model:ir.model.fields,field_description:auth_oauth.field_auth_oauth_provider__validation_endpoint
 msgid "UserInfo URL"
-msgstr "URL de UserInfo"
+msgstr "Enlace de la información del usuario"
 
 #. module: auth_oauth
 #. odoo-python
@@ -248,7 +248,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:auth_oauth.view_oauth_provider_form
 #: model_terms:ir.ui.view,arch_db:auth_oauth.view_oauth_provider_tree
 msgid "arch"
-msgstr "arquitectura"
+msgstr "arco"
 
 #. module: auth_oauth
 #: model_terms:ir.ui.view,arch_db:auth_oauth.res_config_settings_view_form

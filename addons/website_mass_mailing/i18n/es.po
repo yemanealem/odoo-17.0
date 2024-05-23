@@ -174,12 +174,12 @@ msgstr "Boletín de noticias"
 #. module: website_mass_mailing
 #: model_terms:ir.ui.view,arch_db:website_mass_mailing.snippets
 msgid "Newsletter Block"
-msgstr "Bloqueador de boletín de noticias"
+msgstr "Bloque de boletín"
 
 #. module: website_mass_mailing
 #: model_terms:ir.ui.view,arch_db:website_mass_mailing.snippets
 msgid "Newsletter Popup"
-msgstr "Ventana emergente de boletín de noticias"
+msgstr "Popup de Noticia"
 
 #. module: website_mass_mailing
 #. odoo-javascript

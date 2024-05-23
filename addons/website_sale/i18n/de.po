@@ -1034,7 +1034,7 @@ msgstr "Kann veröffentlichen"
 #: code:addons/website_sale/controllers/main.py:0
 #, python-format
 msgid "You can't use a video as the product's main image."
-msgstr "Sie können kein Video als das Hauptbild des Produkts verwenden"
+msgstr ""
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
@@ -1158,7 +1158,7 @@ msgstr ""
 #: code:addons/website_sale/models/website.py:0
 #, python-format
 msgid "Checkout"
-msgstr "Zur Kasse"
+msgstr "Kassiervorgang"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options
@@ -2268,7 +2268,7 @@ msgstr ""
 #: code:addons/website_sale/static/src/js/website_sale_utils.js:0
 #, python-format
 msgid "Item(s) added to your cart"
-msgstr "Artikel im Warenkorb"
+msgstr "Artikel in den Warenkorb gelegt"
 
 #. module: website_sale
 #: model:ir.model,name:website_sale.model_account_move
@@ -2794,7 +2794,7 @@ msgstr "Auf der Website angezeigte Auftragspositionen"
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.cart
 msgid "Order overview"
-msgstr "Bestellübersicht"
+msgstr "Auftragsübersicht"
 
 #. module: website_sale
 #: model:ir.actions.act_window,name:website_sale.action_orders_ecommerce

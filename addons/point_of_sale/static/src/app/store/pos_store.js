@@ -286,7 +286,6 @@ export class PosStore extends Reactive {
         this._loadProductProduct(loadedData["product.product"]);
         this.db.add_packagings(loadedData["product.packaging"]);
         this.attributes_by_ptal_id = loadedData["attributes_by_ptal_id"];
-        this._add_ptal_ids_by_ptav_id(this.attributes_by_ptal_id);
         this.cash_rounding = loadedData["account.cash.rounding"];
         this.payment_methods = loadedData["pos.payment.method"];
         this._loadPosPaymentMethod();
@@ -299,23 +298,6 @@ export class PosStore extends Reactive {
         this.show_category_images = loadedData["show_category_images"] === "yes";
         await this._loadPosPrinters(loadedData["pos.printer"]);
         this.open_orders_json = loadedData["open_orders"];
-    }
-    _add_ptal_ids_by_ptav_id(attributes_by_ptal_id) {
-        // Create a cache based on attributes_by_ptal_id
-        // that enables faster lookup for all ptal_ids
-        // inside a given attribute's "values" list,
-        // given a specific ptav_id.
-        this.ptal_ids_by_ptav_id = {};
-        for (const [ptal_id, attribute] of Object.entries(attributes_by_ptal_id)) {
-            for (const value of attribute["values"]) {
-                const ptav_id = value["id"];
-                if (ptav_id in this.ptal_ids_by_ptav_id) {
-                    this.ptal_ids_by_ptav_id[ptav_id].push(ptal_id);
-                } else {
-                    this.ptal_ids_by_ptav_id[ptav_id] = [ptal_id];
-                }
-            }
-        }
     }
     _loadPosSession() {
         // We need to do it here, since only then the local storage has the correct uuid
@@ -652,20 +634,22 @@ export class PosStore extends Reactive {
         await this._loadMissingPartners(jsons);
         var orders = [];
 
-        for (const json of jsons) {
-            if (
-                json.pos_session_id === this.pos_session.id ||
-                json.lines.length > 0 ||
-                json.statement_ids.length > 0
-            ) {
-                try {
-                    orders.push(this.createReactiveOrder(json));
-                    continue;
-                } catch (error) {
-                    console.error("There was an error while loading the order", json, error);
-                }
+        for (var i = 0; i < jsons.length; i++) {
+            var json = jsons[i];
+            if (json.pos_session_id === this.pos_session.id) {
+                orders.push(this.createReactiveOrder(json));
             }
-            this.db.remove_unpaid_order(json);
+        }
+        for (i = 0; i < jsons.length; i++) {
+            json = jsons[i];
+            if (
+                json.pos_session_id !== this.pos_session.id &&
+                (json.lines.length > 0 || json.statement_ids.length > 0)
+            ) {
+                orders.push(this.createReactiveOrder(json));
+            } else if (json.pos_session_id !== this.pos_session.id) {
+                this.db.remove_unpaid_order(jsons[i]);
+            }
         }
 
         orders = orders.sort(function (a, b) {
@@ -1163,19 +1147,17 @@ export class PosStore extends Reactive {
     }
 
     push_orders(opts = {}) {
-        // The 'printedOrders' is added to prevent printed orders from being reverted to draft
-        opts = Object.assign({ printedOrders: true }, opts);
         return this.pushOrderMutex.exec(() => this._flush_orders(this.db.get_orders(), opts));
     }
 
     push_single_order(order) {
         const order_id = this.db.add_order(order.export_as_JSON());
-        return this.pushOrderMutex.exec(() => this._flush_orders([this.db.get_order(order_id)], order._getOrderOptions()));
+        return this.pushOrderMutex.exec(() => this._flush_orders([this.db.get_order(order_id)]));
     }
 
     // Send validated orders to the backend.
     // Resolves to the backend ids of the synced orders.
-    async _flush_orders(orders, options = {}) {
+    async _flush_orders(orders, options) {
         try {
             const server_ids = await this._save_to_server(orders, options);
             for (let i = 0; i < server_ids.length; i++) {
@@ -1184,7 +1166,7 @@ export class PosStore extends Reactive {
             }
             return server_ids;
         } catch (error) {
-            if (!(error instanceof ConnectionLostError) && !options.printedOrders) {
+            if (!(error instanceof ConnectionLostError)) {
                 for (const order of orders) {
                     const reactiveOrder = this.orders.find((o) => o.uid === order.id);
                     reactiveOrder.finalized = false;
@@ -1531,15 +1513,13 @@ export class PosStore extends Reactive {
             }
 
             if (company.country && company.country.code === "IN") {
-                let total_tax_amount = 0.0;
-                for(const [i, tax_factor] of incl_tax_amounts.percent_taxes){
-                    const tax_amount = round_pr(base_amount * tax_factor / (100 + percent_amount), currency_rounding);
-                    total_tax_amount += tax_amount;
+                for (const [i, tax_factor] of incl_tax_amounts.percent_taxes) {
+                    const tax_amount = round_pr(
+                        (base_amount * tax_factor) / (100 + percent_amount),
+                        currency_rounding
+                    );
                     cached_tax_amounts[i] = tax_amount;
                     fixed_amount += tax_amount;
-                }
-                for (const [i,] of incl_tax_amounts.percent_taxes) {
-                    cached_base_amounts[i] = base - total_tax_amount;
                 }
                 percent_amount = 0.0;
             }
@@ -1576,11 +1556,9 @@ export class PosStore extends Reactive {
         };
 
         var cached_tax_amounts = {};
-        var cached_base_amounts = {};
-        let is_base_affected = true;
         if (handle_price_include) {
             taxes.reverse().forEach(function (tax) {
-                if (tax.include_base_amount && is_base_affected) {
+                if (tax.include_base_amount) {
                     base = recompute_base(base, incl_tax_amounts);
                     store_included_tax_total = true;
                 }
@@ -1609,7 +1587,6 @@ export class PosStore extends Reactive {
                     }
                 }
                 i -= 1;
-                is_base_affected = tax.is_base_affected;
             });
         }
 
@@ -1629,20 +1606,24 @@ export class PosStore extends Reactive {
         i = 0;
         var cumulated_tax_included_amount = 0;
         taxes.reverse().forEach(function (tax) {
-            if (tax.price_include && i in cached_base_amounts) {
-                var tax_base_amount = cached_base_amounts[i];
-            } else if (tax.price_include || tax.is_base_affected) {
+            if (tax.price_include || tax.is_base_affected) {
                 var tax_base_amount = base;
             } else {
                 tax_base_amount = total_excluded;
             }
 
-            if (tax.price_include && cached_tax_amounts.hasOwnProperty(i)) {
-                var tax_amount = cached_tax_amounts[i];
-            } else if (!skip_checkpoint && tax.price_include && total_included_checkpoints[i] !== undefined) {
-                var tax_amount = total_included_checkpoints[i] - (base + cumulated_tax_included_amount);
+            if (
+                !skip_checkpoint &&
+                tax.price_include &&
+                total_included_checkpoints[i] !== undefined &&
+                tax.sum_repartition_factor != 0
+            ) {
+                var tax_amount =
+                    total_included_checkpoints[i] - (base + cumulated_tax_included_amount);
                 cumulated_tax_included_amount = 0;
-            }else{
+            } else if (tax.price_include && cached_tax_amounts.hasOwnProperty(i)) {
+                var tax_amount = cached_tax_amounts[i];
+            } else {
                 var tax_amount = self._compute_all(tax, tax_base_amount, quantity, true);
             }
 
@@ -1881,13 +1862,13 @@ export class PosStore extends Reactive {
         // If pos is not properly loaded, we just go back to /web without
         // doing anything in the order data.
         if (!this || this.db.get_orders().length === 0) {
-            this.redirectToBackend();
+            window.location = "/web#action=point_of_sale.action_client_pos_menu";
         }
 
         // If there are orders in the db left unsynced, we try to sync.
         const syncSuccess = await this.push_orders_with_closing_popup();
         if (syncSuccess) {
-            this.redirectToBackend();
+            window.location = '/web#action=point_of_sale.action_client_pos_menu';
         }
     }
     async selectPartner() {
@@ -2043,10 +2024,6 @@ export class PosStore extends Reactive {
 
     isChildPartner(partner) {
         return partner.parent_name;
-    }
-
-    redirectToBackend() {
-        window.location = "/web#action=point_of_sale.action_client_pos_menu";
     }
 }
 

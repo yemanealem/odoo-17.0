@@ -305,7 +305,7 @@ class TestActivityMixin(TestActivityCommon):
             name='user Australia',
             login='user Australia',
         )
-        cls.user_australia.tz = 'Australia/Sydney'
+        cls.user_australia.tz = 'Australia/ACT'
 
     @mute_logger('odoo.addons.mail.models.mail_mail')
     def test_activity_mixin(self):

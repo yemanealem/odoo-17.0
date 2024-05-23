@@ -120,5 +120,5 @@ class ResCompany(models.Model):
         return {
             'type': 'ir.actions.act_url',
             'target': 'self',
-            'url': f'/hr_attendance/kiosk_mode_menu/{self.env.company.id}',
+            'url': '/hr_attendance/kiosk_mode_menu'
         }

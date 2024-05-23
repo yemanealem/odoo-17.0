@@ -112,9 +112,9 @@ options.registry.Rating = options.Class.extend({
         this.$target.find('.s_rating_icons i').remove();
         for (let i = 0; i < this.nbTotalIcons; i++) {
             if (i < this.nbActiveIcons) {
-                $activeIcons.append('<i></i> ');
+                $activeIcons.append('<i/> ');
             } else {
-                $inactiveIcons.append('<i></i> ');
+                $inactiveIcons.append('<i/> ');
             }
         }
         this._renderIcons();

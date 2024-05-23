@@ -256,7 +256,7 @@ class TestLeaveRequests(TestHrHolidaysCommon):
     @mute_logger('odoo.models.unlink', 'odoo.addons.mail.models.mail_mail')
     def test_timezone_employee_leave_request(self):
         """ Create a leave request for an employee in another timezone """
-        self.employee_emp.tz = 'Pacific/Auckland'  # GMT+12
+        self.employee_emp.tz = 'NZ'  # GMT+12
         leave = self.env['hr.leave'].new({
             'employee_id': self.employee_emp.id,
             'holiday_status_id': self.holidays_type_1.id,
@@ -273,7 +273,7 @@ class TestLeaveRequests(TestHrHolidaysCommon):
     def test_timezone_company_leave_request(self):
         """ Create a leave request for a company in another timezone """
         company = self.env['res.company'].create({'name': "Hergé"})
-        company.resource_calendar_id.tz = 'Australia/Sydney'  # GMT+12
+        company.resource_calendar_id.tz = 'NZ'  # GMT+12
         leave = self.env['hr.leave'].new({
             'employee_id': self.employee_emp.id,
             'holiday_status_id': self.holidays_type_1.id,
@@ -291,7 +291,7 @@ class TestLeaveRequests(TestHrHolidaysCommon):
     @mute_logger('odoo.models.unlink', 'odoo.addons.mail.models.mail_mail')
     def test_timezone_company_validated(self):
         """ Create a leave request for a company in another timezone and validate it """
-        self.env.user.tz = 'Australia/Sydney' # GMT+12
+        self.env.user.tz = 'NZ' # GMT+12
         company = self.env['res.company'].create({'name': "Hergé"})
         employee = self.env['hr.employee'].create({'name': "Remi", 'company_id': company.id})
         leave_form = Form(self.env['hr.leave'], view='hr_holidays.hr_leave_view_form_manager')
@@ -313,7 +313,7 @@ class TestLeaveRequests(TestHrHolidaysCommon):
     def test_timezone_department_leave_request(self):
         """ Create a leave request for a department in another timezone """
         company = self.env['res.company'].create({'name': "Hergé"})
-        company.resource_calendar_id.tz = 'Australia/Sydney'  # GMT+12
+        company.resource_calendar_id.tz = 'NZ'  # GMT+12
         department = self.env['hr.department'].create({'name': "Museum", 'company_id': company.id})
         leave = self.env['hr.leave'].new({
             'employee_id': self.employee_emp.id,
@@ -470,7 +470,7 @@ class TestLeaveRequests(TestHrHolidaysCommon):
     @mute_logger('odoo.models.unlink', 'odoo.addons.mail.models.mail_mail')
     def test_leave_defaults_with_timezones(self):
         """ Make sure that leaves start with correct defaults for non-UTC timezones """
-        timezones_to_test = ('UTC', 'Pacific/Midway', 'America/Los_Angeles', 'Asia/Taipei', 'Pacific/Kiritimati')  # UTC, UTC -11, UTC -8, UTC +8, UTC +14
+        timezones_to_test = ('UTC', 'Pacific/Midway', 'US/Pacific', 'Asia/Taipei', 'Pacific/Kiritimati')  # UTC, UTC -11, UTC -8, UTC +8, UTC +14
 
         #     January 2020
         # Su Mo Tu We Th Fr Sa
@@ -1152,53 +1152,3 @@ class TestLeaveRequests(TestHrHolidaysCommon):
         })
         holiday_status = self.holidays_type_4.with_user(self.user_employee_id)
         self._check_holidays_status(holiday_status, employee, 20.0, 0.0, 20.0, 16.0)
-
-    def test_default_request_date_timezone(self):
-        """
-            The purpose is to test whether the timezone is
-            taken into account when requesting a leave.
-        """
-        self.user_employee.tz = 'Hongkong' # UTC +08:00
-        context = {
-            # `date_from/to` in UTC to simulate client values
-            'default_date_from': '2024-03-27 23:00:00',
-            'default_date_to': '2024-03-28 08:00:00',
-        }
-        leave_form = Form(self.env['hr.leave'].with_user(self.user_employee).with_context(context))
-        leave_form.holiday_status_id = self.holidays_type_2
-        leave = leave_form.save()
-        self.assertEqual(leave.number_of_days, 1.0)
-
-    def test_filter_time_off_type_multiple_employees(self):
-        """ This test mimics the behavior of creating time off for multiple employees.
-        We check that the time off types that the user can select are correct.
-        In this example, we use a time off type that requires allocations.
-        Only the current user has an allocation for the time off type.
-        This time off type should not appear when multiple employees are select (user included or not).
-        """
-        self.assertFalse(self.env['hr.leave.allocation'].search([['holiday_status_id', '=', self.holidays_type_2.id]]))
-
-        self.env.user.employee_id = self.employee_hruser_id
-        allocation = self.env['hr.leave.allocation'].create({
-            'holiday_type': 'employee',
-            'employee_id': self.employee_hruser_id,
-            'holiday_status_id': self.holidays_type_2.id,
-            'allocation_type': 'regular'
-        })
-
-        self.assertEqual(allocation.state, 'validate')
-
-        search_domain = ['|',
-                        ['requires_allocation', '=', 'no'],
-                        '&',
-                            ['has_valid_allocation', '=', True],
-                            '&',
-                                ['max_leaves', '>', '0'],
-                                '|',
-                                ['allows_negative', '=', True],
-                                '&',
-                                    ['virtual_remaining_leaves', '>', 0],
-                                    ['allows_negative', '=', False]]
-
-        search_result = self.env['hr.leave.type'].with_context(employee_id=False).name_search(args=search_domain)
-        self.assertFalse(self.holidays_type_2.id in [alloc_id for (alloc_id, _) in search_result])

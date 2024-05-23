@@ -4,7 +4,6 @@
 # 
 # Translators:
 # Wil Odoo, 2023
-# Thi Huong Nguyen, 2024
 # 
 msgid ""
 msgstr ""
@@ -12,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-26 21:56+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: Thi Huong Nguyen, 2024\n"
+"Last-Translator: Wil Odoo, 2023\n"
 "Language-Team: Vietnamese (https://app.transifex.com/odoo/teams/41243/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +22,7 @@ msgstr ""
 #. module: web_unsplash
 #: model_terms:ir.ui.view,arch_db:web_unsplash.res_config_settings_view_form
 msgid "<i class=\"oi oi-arrow-right\"/> Generate an Access Key"
-msgstr "<i class=\"oi oi-arrow-right\"/> Tạo mã khóa truy cập"
+msgstr ""
 
 #. module: web_unsplash
 #: model:ir.model.fields,field_description:web_unsplash.field_res_config_settings__unsplash_access_key
@@ -36,7 +35,7 @@ msgstr "Khóa truy cập"
 #: model:ir.model.fields,field_description:web_unsplash.field_res_config_settings__unsplash_app_id
 #, python-format
 msgid "Application ID"
-msgstr "ID ứng dụng"
+msgstr ""
 
 #. module: web_unsplash
 #. odoo-javascript
@@ -74,7 +73,7 @@ msgstr "LRI: URL thông báo Unsplash không xác định!"
 #: code:addons/web_unsplash/static/src/components/media_dialog/image_selector.xml:0
 #, python-format
 msgid "Get an Access key"
-msgstr "Lấy mã khoá truy cập"
+msgstr ""
 
 #. module: web_unsplash
 #. odoo-javascript
@@ -95,7 +94,7 @@ msgstr "Dán ID của bạn tại đây"
 #: code:addons/web_unsplash/static/src/components/media_dialog/image_selector.xml:0
 #, python-format
 msgid "Photos (via Unsplash)"
-msgstr "Hình ảnh (thông qua Unsplash)"
+msgstr ""
 
 #. module: web_unsplash
 #. odoo-javascript
@@ -129,7 +128,7 @@ msgstr "Chức năng tìm kiếm tạm thời không khả dụng"
 #: code:addons/web_unsplash/static/src/components/media_dialog/image_selector.js:0
 #, python-format
 msgid "Setup Unsplash to access royalty free photos."
-msgstr "Thiết lập Unsplash để truy cập ảnh miễn phí bản quyền."
+msgstr ""
 
 #. module: web_unsplash
 #. odoo-javascript
@@ -161,14 +160,14 @@ msgstr "Khóa trái phép"
 #: code:addons/web_unsplash/static/src/components/media_dialog/image_selector.js:0
 #, python-format
 msgid "Uploading %s '%s' images."
-msgstr "Đang tải lên %s '%s' hình ảnh."
+msgstr ""
 
 #. module: web_unsplash
 #. odoo-javascript
 #: code:addons/web_unsplash/static/src/components/media_dialog/image_selector.js:0
 #, python-format
 msgid "Uploading '%s' image."
-msgstr "Đang tải lên '%s' hình ảnh."
+msgstr ""
 
 #. module: web_unsplash
 #: model:ir.model,name:web_unsplash.model_res_users
@@ -180,18 +179,18 @@ msgstr "Người dùng"
 #: code:addons/web_unsplash/static/src/components/media_dialog/image_selector.xml:0
 #, python-format
 msgid "and paste"
-msgstr "và dán"
+msgstr ""
 
 #. module: web_unsplash
 #. odoo-javascript
 #: code:addons/web_unsplash/static/src/components/media_dialog/image_selector.xml:0
 #, python-format
 msgid "and paste it here:"
-msgstr "và dán tại đây:"
+msgstr ""
 
 #. module: web_unsplash
 #. odoo-javascript
 #: code:addons/web_unsplash/static/src/components/media_dialog/image_selector.xml:0
 #, python-format
 msgid "here:"
-msgstr "tại đây:"
+msgstr ""

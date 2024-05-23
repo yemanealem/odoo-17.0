@@ -63,7 +63,6 @@ export class StockForecasted extends Component {
                     this.resModel = originalContextAction.active_model;
                 }
             }
-            this.context.active_model = this.resModel;
         }
     }
 
@@ -77,7 +76,6 @@ export class StockForecasted extends Component {
 
     async reloadReport() {
         const actionRequest = {
-            id: this.props.action.id,
             type: "ir.actions.client",
             tag: "stock_forecasted",
             context: this.context,

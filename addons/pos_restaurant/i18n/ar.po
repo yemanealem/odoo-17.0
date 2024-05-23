@@ -257,7 +257,7 @@ msgstr "حجز طاولة "
 #. module: pos_restaurant
 #: model:product.template,name:pos_restaurant.burger_drink_combo_product_template
 msgid "Burger Menu Combo"
-msgstr "كومبو قائمة البرجر "
+msgstr ""
 
 #. module: pos_restaurant
 #. odoo-python

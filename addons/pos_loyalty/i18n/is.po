@@ -4,7 +4,6 @@
 # 
 # Translators:
 # Martin Trigaux, 2024
-# jonasyngvi, 2024
 # 
 msgid ""
 msgstr ""
@@ -12,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-29 10:44+0000\n"
 "PO-Revision-Date: 2023-10-26 23:09+0000\n"
-"Last-Translator: jonasyngvi, 2024\n"
+"Last-Translator: Martin Trigaux, 2024\n"
 "Language-Team: Icelandic (https://app.transifex.com/odoo/teams/41243/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,7 +89,7 @@ msgstr ""
 #: code:addons/pos_loyalty/static/src/overrides/components/order_receipt/order_receipt.xml:0
 #, python-format
 msgid "Balance"
-msgstr "Jöfnuður"
+msgstr ""
 
 #. module: pos_loyalty
 #. odoo-javascript
@@ -140,7 +139,7 @@ msgstr ""
 #: code:addons/pos_loyalty/static/src/overrides/components/order_receipt/order_receipt.xml:0
 #, python-format
 msgid "Customer"
-msgstr "Viðskiptavinur"
+msgstr ""
 
 #. module: pos_loyalty
 #. odoo-javascript
@@ -536,20 +535,6 @@ msgstr ""
 #: code:addons/pos_loyalty/static/src/overrides/models/loyalty.js:0
 #, python-format
 msgid "That promo code program has already been activated."
-msgstr ""
-
-#. module: pos_loyalty
-#. odoo-javascript
-#: code:addons/pos_loyalty/static/src/overrides/models/loyalty.js:0
-#, python-format
-msgid "That promo code program is expired."
-msgstr ""
-
-#. module: pos_loyalty
-#. odoo-javascript
-#: code:addons/pos_loyalty/static/src/overrides/models/loyalty.js:0
-#, python-format
-msgid "That promo code program is not yet valid."
 msgstr ""
 
 #. module: pos_loyalty

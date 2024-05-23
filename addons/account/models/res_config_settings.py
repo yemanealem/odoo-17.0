@@ -245,7 +245,7 @@ class ResConfigSettings(models.TransientModel):
                 'credit_limit',
                 'res.partner',
                 setting.account_default_credit_limit,
-                setting.company_id.id
+                self.company_id.id
             )
 
     @api.depends('company_id')

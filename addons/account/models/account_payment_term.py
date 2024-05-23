@@ -26,7 +26,7 @@ class AccountPaymentTerm(models.Model):
     company_id = fields.Many2one('res.company', string='Company')
     fiscal_country_codes = fields.Char(compute='_compute_fiscal_country_codes')
     sequence = fields.Integer(required=True, default=10)
-    currency_id = fields.Many2one('res.currency', compute="_compute_currency_id")
+    currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id, store=True)
 
     display_on_invoice = fields.Boolean(string='Show installment dates', default=True)
     example_amount = fields.Monetary(currency_field='currency_id', default=1000, store=False, readonly=True)
@@ -51,21 +51,15 @@ class AccountPaymentTerm(models.Model):
             allowed_companies = record.company_id or self.env.companies
             record.fiscal_country_codes = ",".join(allowed_companies.mapped('account_fiscal_country_id.code'))
 
-    @api.depends_context('company')
-    @api.depends('company_id')
-    def _compute_currency_id(self):
-        for payment_term in self:
-            payment_term.currency_id = payment_term.company_id.currency_id or self.env.company.currency_id
-
     def _get_amount_due_after_discount(self, total_amount, untaxed_amount):
         self.ensure_one()
         if self.early_discount:
             percentage = self.discount_percentage / 100.0
             if self.early_pay_discount_computation in ('excluded', 'mixed'):
-                discount_amount_currency = (total_amount - untaxed_amount) * percentage
+                discount_amount_currency = self.currency_id.round((total_amount - untaxed_amount) * percentage)
             else:
-                discount_amount_currency = total_amount * percentage
-            return self.currency_id.round(total_amount - discount_amount_currency)
+                discount_amount_currency = self.currency_id.round(total_amount - (total_amount * (1 - (percentage))))
+            return total_amount - discount_amount_currency
         return total_amount
 
     @api.depends('company_id')

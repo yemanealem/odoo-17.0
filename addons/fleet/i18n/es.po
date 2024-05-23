@@ -424,14 +424,14 @@ msgstr "Número de chasis"
 #. module: fleet
 #: model:ir.model.fields,help:fleet.field_fleet_vehicle_log_contract__state
 msgid "Choose whether the contract is still valid or not"
-msgstr "Elija si el contrato sigue siendo válido o no"
+msgstr "Elige si el contrato sigue siendo válido o no"
 
 #. module: fleet
 #: model:ir.model.fields,help:fleet.field_fleet_service_type__category
 msgid ""
 "Choose whether the service refer to contracts, vehicle services or both"
 msgstr ""
-"Elija si el servicio se refiere a contratos, servicios de vehículos o ambos"
+"Elige si el servicio se refiere a contratos, servicios de vehículos o ambos"
 
 #. module: fleet
 #: model_terms:ir.ui.view,arch_db:fleet.fleet_vehicle_log_contract_view_form
@@ -713,7 +713,7 @@ msgstr ""
 #. module: fleet
 #: model:ir.model.fields,help:fleet.field_fleet_vehicle__write_off_date
 msgid "Date when the vehicle's license plate has been cancelled/removed."
-msgstr "Fecha en la que se ha cancelado/eliminado la matrícula del vehículo."
+msgstr "Fecha en la que se canceló o removió la placa del vehículo."
 
 #. module: fleet
 #: model:ir.model.fields,field_description:fleet.field_res_config_settings__delay_alert_contract
@@ -1331,7 +1331,8 @@ msgstr "Matrícula"
 #: model:ir.model.fields,help:fleet.field_fleet_vehicle__license_plate
 msgid "License plate number of the vehicle (i = plate number for a car)"
 msgstr ""
-"Número de matrícula del vehículo (i = número de matrícula para un vehículo)"
+"Número de matrícula del vehículo (es decir, número de placa para un "
+"vehículo)"
 
 #. module: fleet
 #: model:ir.model.fields,field_description:fleet.field_fleet_vehicle__location
@@ -1948,7 +1949,7 @@ msgstr "Actividad de servicio"
 #: model:ir.model.fields,field_description:fleet.field_fleet_vehicle_log_services__service_type_id
 #: model_terms:ir.ui.view,arch_db:fleet.fleet_vehicle_log_services_view_search
 msgid "Service Type"
-msgstr "Tipo de servicio"
+msgstr "Tipo de Servicio"
 
 #. module: fleet
 #: model_terms:ir.ui.view,arch_db:fleet.fleet_vehicle_service_types_view_tree
@@ -2131,8 +2132,8 @@ msgid ""
 "This is the date at which the car will be available, if not set it means "
 "available instantly"
 msgstr ""
-"Esta es la fecha en la que el coche estará disponible, si no se establece "
-"significa disponible al instante"
+"Esta es la fecha en la que el automóvil estará disponible, si no se "
+"configura significa que está disponible al instante"
 
 #. module: fleet
 #: model:fleet.service.type,name:fleet.type_service_44
@@ -2371,7 +2372,7 @@ msgstr "Proveedor"
 #. module: fleet
 #: model:ir.model.fields,field_description:fleet.field_fleet_vehicle_log_services__inv_ref
 msgid "Vendor Reference"
-msgstr "Referencia de vendedor"
+msgstr "Referencia de proveedor"
 
 #. module: fleet
 #: model:ir.model.fields,field_description:fleet.field_fleet_vehicle_model__vendors
@@ -2402,7 +2403,7 @@ msgstr "Reemplazo de bomba de agua"
 #. module: fleet
 #: model:ir.model.fields.selection,name:fleet.selection__fleet_vehicle__frame_type__wave
 msgid "Wave"
-msgstr "Ola "
+msgstr "Agrupación"
 
 #. module: fleet
 #: model:ir.model.fields.selection,name:fleet.selection__fleet_vehicle_log_contract__cost_frequency__weekly

@@ -43,6 +43,9 @@ models which only purpose is to run tests.""",
         'web.assets_tests': [
             'test_website/static/tests/tours/*',
         ],
+        'web.qunit_suite_tests': [
+            'test_website/static/tests/*.js',
+        ],
     },
     'license': 'LGPL-3',
 }

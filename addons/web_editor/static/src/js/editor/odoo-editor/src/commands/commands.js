@@ -51,8 +51,6 @@ import {
     resetOuids,
     FONT_SIZE_CLASSES,
     TEXT_STYLE_CLASSES,
-    padLinkWithZws,
-    isLinkEligibleForZwnbsp,
 } from '../utils/utils.js';
 
 const TEXT_CLASSES_REGEX = /\btext-[^\s]*\b/;
@@ -304,15 +302,8 @@ export const editorCommands = {
         currentNode = lastChildNode || currentNode;
         selection.removeAllRanges();
         const newRange = new Range();
-        let lastPosition;
-        if (currentNode.nodeName === 'A' && isLinkEligibleForZwnbsp(editor.editable, currentNode)) {
-            padLinkWithZws(editor.editable, currentNode);
-            currentNode = currentNode.nextSibling;
-            lastPosition = getDeepestPosition(...rightPos(currentNode));
-        } else {
-            lastPosition = rightPos(currentNode);
-        }
-        if (!editor.options.allowInlineAtRoot && lastPosition[0] === editor.editable) {
+        let lastPosition = rightPos(currentNode);
+        if (lastPosition[0] === editor.editable) {
             // Correct the position if it happens to be in the editable root.
             lastPosition = getDeepestPosition(...lastPosition);
         }
@@ -644,7 +635,7 @@ export const editorCommands = {
                     } else {
                         font = [];
                     }
-                } else if ((node.nodeType === Node.TEXT_NODE && !isWhitespace(node) && node.textContent !== '\ufeff')
+                } else if ((node.nodeType === Node.TEXT_NODE && !isWhitespace(node))
                         || (node.nodeName === 'BR' && isEmptyBlock(node.parentNode))
                         || (node.nodeType === Node.ELEMENT_NODE &&
                             node.nodeName !== 'FIGURE' &&
@@ -821,11 +812,6 @@ export const editorCommands = {
         const cells = [...closestElement(cell, 'tr').querySelectorAll('th, td')];
         const index = cells.findIndex(td => td === cell);
         const siblingCell = cells[index - 1] || cells[index + 1];
-        if (table.style.width) {
-            const tableRect = table.getBoundingClientRect();
-            const cellRect = cell.getBoundingClientRect();
-            table.style.width = tableRect.width - cellRect.width + 'px';
-        }
         table.querySelectorAll(`tr td:nth-of-type(${index + 1})`).forEach(td => td.remove());
         siblingCell ? setSelection(...startPos(siblingCell)) : editorCommands.deleteTable(editor, table);
     },

@@ -149,7 +149,7 @@ class ReportSaleDetails(models.AbstractModel):
                         elif payment['id'] in account_payments.mapped('pos_payment_method_id.id'):
                             account_payment = account_payments.filtered(lambda p: p.pos_payment_method_id.id == payment['id'])
                             payment['final_count'] = payment['total']
-                            payment['money_counted'] = sum(account_payment.mapped('amount'))
+                            payment['money_counted'] = account_payment.amount
                             payment['money_difference'] = payment['money_counted'] - payment['final_count']
                             payment['cash_moves'] = []
                             if payment['money_difference'] > 0:
@@ -273,10 +273,6 @@ class ReportSaleDetails(models.AbstractModel):
                 'invoices': session._get_invoice_total_list(),
             })
             invoiceTotal += session._get_total_invoice()
-
-        for payment in payments:
-            if payment.get('id'):
-                payment['name'] = self.env['pos.payment.method'].browse(payment['id']).name + ' ' + self.env['pos.session'].browse(payment['session']).name
 
         return {
             'opening_note': sessions[0].opening_notes if len(sessions) == 1 else False,
