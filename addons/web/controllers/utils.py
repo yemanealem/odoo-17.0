@@ -110,7 +110,7 @@ def fix_view_modes(action):
     """ For historical reasons, Odoo has weird dealings in relation to
     view_mode and the view_type attribute (on window actions):
 
-    * one of the view modes is ``tree``, which stands for both list views
+    * one of the view models is ``tree``, which stands for both list views
       and tree views
     * the choice is made by checking ``view_type``, which is either
       ``form`` for a list view or ``tree`` for an actual tree view
@@ -172,9 +172,9 @@ def generate_views(action):
     if len(view_modes) > 1:
         if view_id:
             raise ValueError('Non-db action dictionaries should provide '
-                             'either multiple view modes or a single view '
+                             'either multiple view models or a single view '
                              'mode and an optional view id.\n\n Got view '
-                             'modes %r and view id %r for action %r' % (
+                             'models %r and view id %r for action %r' % (
                 view_modes, view_id, action))
         action['views'] = [(False, mode) for mode in view_modes]
         return

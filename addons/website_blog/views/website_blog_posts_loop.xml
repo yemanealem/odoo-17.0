@@ -84,7 +84,7 @@ according to the enabled options.
             <!-- Posts -->
 
             <!-- Define 'colWidth' qWeb variable, to be assigned later.
-            Adjust accordingly if sidebar and/or readability modes are active. -->
+            Adjust accordingly if sidebar and/or readability models are active. -->
             <t t-if="not opt_blog_list_view">
                 <t t-if="opt_blog_readable">
                     <t t-if="opt_blog_sidebar_show" t-set="colWidth" t-value="'col-md-6'"/>

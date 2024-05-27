@@ -618,7 +618,7 @@ class TestComposerInternals(TestMailComposer):
     @mute_logger('odoo.addons.mail.models.mail_mail')
     def test_mail_composer_author(self):
         """ Test author_id / email_from synchronization, in both comment and mass
-        mail modes. """
+        mail models. """
         template_void = self.template.copy(default={
             'email_from': False,
         })

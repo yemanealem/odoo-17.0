@@ -42,3 +42,5 @@ class ResUsers(models.Model):
         else:
             key = users.api_key
         return key
+
+

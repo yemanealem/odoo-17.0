@@ -505,7 +505,7 @@ class MailComposer(models.TransientModel):
         'partner_to', in monorecord comment mode. Emails are converted into
         partners, creating new ones when the email does not match any existing
         partner. Composer does not deal with emails but only with partners.
-        When having a template in other modes, no recipients are computed
+        When having a template in other models, no recipients are computed
         as it is done at sending time. When removing the template, reset it.
 
         When not having a template, recipients may come from the parent in
@@ -542,7 +542,7 @@ class MailComposer(models.TransientModel):
     def _compute_auto_delete_keep_log(self):
         """ Keep logs is used only in email mode. It is used to keep the core
         message when unlinking sent emails. It allows to keep the message as
-        a trace in the record's chatter. In other modes it has no use and
+        a trace in the record's chatter. In other models it has no use and
         can be set to False. When auto_delete is turned off it has no usage. """
         toreset = self.filtered(
             lambda comp: comp.composition_mode != 'mass_mail' or

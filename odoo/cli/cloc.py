@@ -18,7 +18,7 @@ Odoo cloc is a tool to count the number of relevant lines written in
 Python, Javascript or XML. This can be used as rough metric for pricing
 maintenance of customizations.
 
-It has two modes of operation, either by providing a path:
+It has two models of operation, either by providing a path:
 
     odoo-bin cloc -p module_path
 

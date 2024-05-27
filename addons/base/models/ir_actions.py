@@ -237,7 +237,7 @@ class IrActionsActWindow(models.Model):
 
     @api.depends('view_ids.view_mode', 'view_mode', 'view_id.type')
     def _compute_views(self):
-        """ Compute an ordered list of the specific view modes that should be
+        """ Compute an ordered list of the specific view models that should be
             enabled when displaying the result of this action, along with the
             ID of the specific view to use for each mode, if any were required.
 
@@ -252,7 +252,7 @@ class IrActionsActWindow(models.Model):
             missing_modes = [mode for mode in all_modes if mode not in got_modes]
             if missing_modes:
                 if act.view_id.type in missing_modes:
-                    # reorder missing modes to put view_id first if present
+                    # reorder missing models to put view_id first if present
                     missing_modes.remove(act.view_id.type)
                     act.views.append((act.view_id.id, act.view_id.type))
                 act.views.extend([(False, mode) for mode in missing_modes])
@@ -262,7 +262,7 @@ class IrActionsActWindow(models.Model):
         for rec in self:
             modes = rec.view_mode.split(',')
             if len(modes) != len(set(modes)):
-                raise ValidationError(_('The modes in view_mode must not be duplicated: %s', modes))
+                raise ValidationError(_('The models in view_mode must not be duplicated: %s', modes))
             if ' ' in modes:
                 raise ValidationError(_('No spaces allowed in view_mode: %r', modes))
 
@@ -277,8 +277,8 @@ class IrActionsActWindow(models.Model):
                             help="Model name of the object to open in the view window")
     target = fields.Selection([('current', 'Current Window'), ('new', 'New Window'), ('inline', 'Inline Edit'), ('fullscreen', 'Full Screen'), ('main', 'Main action of Current Window')], default="current", string='Target Window')
     view_mode = fields.Char(required=True, default='tree,form',
-                            help="Comma-separated list of allowed view modes, such as 'form', 'tree', 'calendar', etc. (Default: tree,form)")
-    mobile_view_mode = fields.Char(default="kanban", help="First view mode in mobile and small screen environments (default='kanban'). If it can't be found among available view modes, the same mode as for wider screens is used)")
+                            help="Comma-separated list of allowed view models, such as 'form', 'tree', 'calendar', etc. (Default: tree,form)")
+    mobile_view_mode = fields.Char(default="kanban", help="First view mode in mobile and small screen environments (default='kanban'). If it can't be found among available view models, the same mode as for wider screens is used)")
     usage = fields.Char(string='Action Usage',
                         help="Used to filter menu and home actions from the user form.")
     view_ids = fields.One2many('ir.actions.act_window.view', 'act_window_id', string='No of Views')

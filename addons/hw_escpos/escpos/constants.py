@@ -19,7 +19,7 @@ DLE_EOT_ERROR     = '\x10\x04\x03'
 DLE_EOT_PAPER     = '\x10\x04\x04'
 
 # Printer hardware
-HW_INIT   = '\x1b\x40'         # Clear data in buffer and reset modes
+HW_INIT   = '\x1b\x40'         # Clear data in buffer and reset models
 HW_SELECT = '\x1b\x3d\x01'     # Printer select
 HW_RESET  = '\x1b\x3f\x0a\x00' # Reset printer hardware
 # Cash Drawer (ESC p <pin> <on time: 2*ms> <off time: 2*ms>)

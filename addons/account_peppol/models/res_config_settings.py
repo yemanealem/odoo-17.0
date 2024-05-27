@@ -47,7 +47,7 @@ class ResConfigSettings(models.TransientModel):
     account_peppol_mode_constraint = fields.Selection(
         selection=[('demo', 'Demo'), ('test', 'Test'), ('prod', 'Live')],
         compute='_compute_account_peppol_mode_constraint',
-        help="Using the config params, this field specifies which edi modes may be selected from the UI"
+        help="Using the config params, this field specifies which edi models may be selected from the UI"
     )
 
     # -------------------------------------------------------------------------

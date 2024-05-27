@@ -1,0 +1,51 @@
+<!-- views/prescription_views.xml -->
+<odoo>
+    <record id="view_physician_prescription_form" model="ir.ui.view">
+        <field name="name">physician.prescription.form</field>
+        <field name="model">physician.prescription</field>
+        <field name="arch" type="xml">
+            <form string="Physician Prescription">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="prescription_date"/>
+                        <field name="physician_id"/>
+                        <field name="patient_id"/>
+                    </group>
+
+                      <notebook>
+                            <page name="select_medicines" string="Select Medicine">
+                                <field name="medicine_ids" string=""/>
+                            </page>
+                        </notebook>
+
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_physician_prescription_tree" model="ir.ui.view">
+        <field name="name">physician.prescription.tree</field>
+        <field name="model">physician.prescription</field>
+        <field name="arch" type="xml">
+            <tree string="Physician Prescription">
+                <field name="name"/>
+                <field name="prescription_date"/>
+                <field name="physician_id"/>
+                <field name="patient_id"/>
+                <field name="medicine_ids" widget="many2many_tags"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_physician_prescription" model="ir.actions.act_window">
+        <field name="name">Physician Prescriptions</field>
+        <field name="res_model">physician.prescription</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_physician_prescription_root" name="Physician Prescriptions" sequence="10"/>
+    <menuitem id="menu_physician_prescription" name="Prescriptions" parent="menu_physician_prescription_root" action="action_physician_prescription"/>
+</odoo>
